@@ -21,3 +21,23 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+#不跟踪所有class类型的文件
+*.class
+.DS_Store
+.settings
+.classpath
+.project
+*.log
+#不跟踪下面的目录
+/bin/
+com.personal/target/
+WebContent/
+bin/
+logs/
+*/.idea/
+.idea/
+*.iml
+*/*.iml
+*.xml
+*/rebel.xml
