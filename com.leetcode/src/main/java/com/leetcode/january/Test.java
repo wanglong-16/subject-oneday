@@ -10,6 +10,8 @@ public class Test {
 
     public static void main(String[] args) {
         SolutionOne solutionOne = new SolutionOne();
-        System.out.println(solutionOne.maximumProduct(new int[] {1,2,3}));
+//        System.out.println(solutionOne.maximumProduct(new int[] {1,2,3}));
+
+        System.out.println(solutionOne.generateParenthesis(3).toString());
     }
 }
