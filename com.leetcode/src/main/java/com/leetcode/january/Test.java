@@ -12,6 +12,10 @@ public class Test {
         SolutionOne solutionOne = new SolutionOne();
 //        System.out.println(solutionOne.maximumProduct(new int[] {1,2,3}));
 
-        System.out.println(solutionOne.generateParenthesis(3).toString());
+        //System.out.println(solutionOne.generateParenthesis(3).toString());
+
+        SolutionTwo solutionTwo = new SolutionTwo();
+        int ret = solutionTwo.findLengthOfLCIS(new int [] {1,3,5,7});
+        System.out.println(ret);
     }
 }
