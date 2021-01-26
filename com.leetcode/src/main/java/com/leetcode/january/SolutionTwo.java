@@ -1,5 +1,11 @@
 package com.leetcode.january;
 
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArrayList;
+
 /**
  * @description:
  * @version: 1.0
@@ -35,4 +41,71 @@ public class SolutionTwo {
         }
         return Math.max(maxL, stop - start);
     }
+
+
+    /**
+     * 3. 无重复字符的最长子串
+     * 给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
+     * 示例 1:
+     * 输入: s = "abcabcbb"
+     * 输出: 3
+     * 解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+     */
+
+    public int lengthOfLongestSubstring(String s) {
+        final char [] chars = s.toCharArray();
+        if (chars.length <= 1) {
+            return chars.length;
+        }
+        int start = 0, stop = 0, maxL = 0;
+        Set<Character> set = new HashSet<Character>();
+        while (stop < chars.length){
+            if (set.contains(chars[stop])) {
+                for (int i = start; i < stop; i++) {
+                    set.remove(chars[i]);
+                    if (chars[i] == chars[stop]) {
+                        start = i + 1;
+                        break;
+                    }
+                }
+            }
+            set.add(chars[stop]);
+            stop ++;
+            maxL = Math.max(maxL, set.size());
+        }
+        return maxL;
+    }
+
+
+    /**
+     * todo 
+     * 给定一个 没有重复 数字的序列，返回其所有可能的全排列。
+     *
+     * 示例:
+     *
+     * 输入: [1,2,3]
+     * 输出:
+     * [
+     *   [1,2,3],
+     *   [1,3,2],
+     *   [2,1,3],
+     *   [2,3,1],
+     *   [3,1,2],
+     *   [3,2,1]
+     * ]
+     */
+    public List<List<Integer>> permute(int[] nums) {
+        List<List<Integer>> result = new ArrayList<List<Integer>>();
+        List<Integer> arr = new ArrayList<Integer>();
+        for (int i = 0; i < nums.length; i++) {
+
+            for (Integer integer : nums) {
+                arr.add(integer);
+            }
+        }
+        return result;
+    }
+
+
+
 }

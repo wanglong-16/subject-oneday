@@ -1,5 +1,7 @@
 package com.leetcode.january;
 
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -15,7 +17,7 @@ public class Test {
         //System.out.println(solutionOne.generateParenthesis(3).toString());
 
         SolutionTwo solutionTwo = new SolutionTwo();
-        int ret = solutionTwo.findLengthOfLCIS(new int [] {1,3,5,7});
+        List<List<Integer>> ret = solutionTwo.permute(new int [] {1,2,3});
         System.out.println(ret);
     }
 }
