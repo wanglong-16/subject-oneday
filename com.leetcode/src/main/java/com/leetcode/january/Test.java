@@ -17,7 +17,10 @@ public class Test {
         //System.out.println(solutionOne.generateParenthesis(3).toString());
 
         SolutionTwo solutionTwo = new SolutionTwo();
-        List<List<Integer>> ret = solutionTwo.permute(new int [] {1,2,3});
-        System.out.println(ret);
+        SolutionThree solutionThree = new SolutionThree();
+
+        //List<List<Integer>> ret = solutionTwo.permute(new int [] {1,2,3});
+        System.out.println(solutionThree.isPalindrome("baceadae".toCharArray()));
+        System.out.println(solutionThree.longestPalindrome("abaceadaebac"));
     }
 }
