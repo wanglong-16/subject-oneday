@@ -129,17 +129,21 @@ public class SolutionThree {
         //遍历nums2 比较nums1并插入
         int cursor = 0;
         for (int i = 0; i < n; i ++) {
-            int cur = nums2[n];
+            int cur = nums2[i];
             for (int j = cursor; j < m + i; j++) {
                 if (nums1[j] > cur) {
                     //记下nums1第一个大于当前数的位置
                     cursor = j;
                     // j之后的数据后移
                     for (int k = m + i; k > j; k--) {
-                        nums1[k+1] = nums1[k];
+                        nums1[k] = nums1[k-1];
                     }
                     nums1[j] = cur;
                     break;
+                }
+                if (j == m + i -1) {
+                    nums1[j + 1] = cur;
+                    cursor = j + 1;
                 }
             }
         }

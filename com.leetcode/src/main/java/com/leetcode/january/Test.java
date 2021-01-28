@@ -20,7 +20,8 @@ public class Test {
         SolutionThree solutionThree = new SolutionThree();
 
         //List<List<Integer>> ret = solutionTwo.permute(new int [] {1,2,3});
-        System.out.println(solutionThree.maxSubArray(new int[] {-2,1,-3,4,-1,2,1,-5,4}));
+        //System.out.println(solutionThree.maxSubArray(new int[] {-2,1,-3,4,-1,2,1,-5,4}));
         //System.out.println(solutionThree.longestPalindrome("abaceadaebac"));
+        solutionThree.merge(new int [] {1,2,3,0,0,0}, 3, new int[] {2,5,6}, 3);
     }
 }
