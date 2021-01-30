@@ -11,17 +11,7 @@ import java.util.List;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionOne solutionOne = new SolutionOne();
-//        System.out.println(solutionOne.maximumProduct(new int[] {1,2,3}));
-
-        //System.out.println(solutionOne.generateParenthesis(3).toString());
-
-        SolutionTwo solutionTwo = new SolutionTwo();
-        SolutionThree solutionThree = new SolutionThree();
-
-        //List<List<Integer>> ret = solutionTwo.permute(new int [] {1,2,3});
-        //System.out.println(solutionThree.maxSubArray(new int[] {-2,1,-3,4,-1,2,1,-5,4}));
-        //System.out.println(solutionThree.longestPalindrome("abaceadaebac"));
-        solutionThree.merge(new int [] {1,2,3,0,0,0}, 3, new int[] {2,5,6}, 3);
+        SolutionFour so = new SolutionFour();
+        System.out.println((so.countPrimes(10)));
     }
 }
