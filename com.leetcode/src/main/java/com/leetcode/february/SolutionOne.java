@@ -70,22 +70,22 @@ public class SolutionOne {
     public boolean isIsomorphic(String s, String t) {
         char [] sChars = s.toCharArray();
         char [] tChars = t.toCharArray();
-        Map<Character, Character> smap = new HashMap<Character, Character>(sChars.length) {};
-        Map<Character, Character> tmap = new HashMap<Character, Character>(sChars.length) {};
+        Map<Character, Character> sMap = new HashMap<Character, Character>(sChars.length) {};
+        Map<Character, Character> tMap = new HashMap<Character, Character>(sChars.length) {};
         for (int i = 0; i < sChars.length; i++) {
             Character sC = sChars[i];
             Character tC = tChars[i];
-            if (smap.get(sC) == null) {
-                smap.put(sC, tC);
+            if (sMap.get(sC) == null) {
+                sMap.put(sC, tC);
             } else {
-                if (!smap.get(sC).equals(tC)) {
+                if (!sMap.get(sC).equals(tC)) {
                     return false;
                 }
             }
-            if (tmap.get(tC) == null) {
-                tmap.put(tC, sC);
+            if (tMap.get(tC) == null) {
+                tMap.put(tC, sC);
             } else {
-                if (!tmap.get(tC).equals(sC)) {
+                if (!tMap.get(tC).equals(sC)) {
                     return false;
                 }
             }
