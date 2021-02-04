@@ -10,7 +10,10 @@ public class Test {
 
     public static void main(String[] args) {
         SolutionOne solutionOne = new SolutionOne();
-        System.out.println(solutionOne.isIsomorphic("badc", "baba"));
+        SolutionTwo solutionTwo = new SolutionTwo();
+        SolutionThree solutionThree = new SolutionThree();
+        System.out.println(solutionThree.isHappy(2));
+      //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 
 }
