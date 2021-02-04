@@ -12,7 +12,8 @@ public class Test {
         SolutionOne solutionOne = new SolutionOne();
         SolutionTwo solutionTwo = new SolutionTwo();
         SolutionThree solutionThree = new SolutionThree();
-        System.out.println(solutionThree.isHappy(2));
+        //solutionTwo.moveZeroes(new int [] {0,0,1});
+        System.out.println(solutionTwo.addDigits(38));
       //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 
