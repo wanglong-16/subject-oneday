@@ -1,5 +1,7 @@
 package com.leetcode.january;
 
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -9,7 +11,7 @@ package com.leetcode.january;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionOne solutionOne = new SolutionOne();
-        System.out.println(solutionOne.maximumProduct(new int[] {1,2,3}));
+        SolutionFour so = new SolutionFour();
+        System.out.println((so.countPrimes(10)));
     }
 }
