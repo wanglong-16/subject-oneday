@@ -13,7 +13,7 @@ public class Test {
         SolutionTwo solutionTwo = new SolutionTwo();
         SolutionThree solutionThree = new SolutionThree();
         //solutionTwo.moveZeroes(new int [] {0,0,1});
-        System.out.println(solutionTwo.modifyString("?zs"));
+        System.out.println(solutionThree.plusOne(new int[] {9}));
       //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 
