@@ -114,4 +114,57 @@ public class SolutionFive {
         return ret;
     }
 
+    /**
+     * 14. 最长公共前缀
+     * 编写一个函数来查找字符串数组中的最长公共前缀。
+     *
+     * 如果不存在公共前缀，返回空字符串 ""。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：strs = ["flower","flow","flight"]
+     * 输出："fl"
+     * 示例 2：
+     *
+     * 输入：strs = ["dog","racecar","car"]
+     * 输出：""
+     * 解释：输入不存在公共前缀。
+     */
+    public String longestCommonPrefix(String[] strs) {
+        int len = strs.length, index = 0;
+        String max = "";
+        for (int i = 0; i < len; i++) {
+            max = max.length() >= strs[i].length() ? max : strs[i];
+        }
+        if (strs.length == 0 || max.equals("")) {
+            return "";
+        }
+        for (int i = 0; i < max.length(); i++) {
+            if (countIndex(strs, max, i) != len) {
+                break;
+            }
+            index ++;
+        }
+        return strs[0].substring(0, index);
+    }
+
+    public int countIndex(String[] strs, String max, int index) {
+        int count = 0;
+        Character character = max.charAt(index);
+        for (String str : strs) {
+            if (str.equals("")) {
+                return 0;
+            }
+            if (str.length() <= index) {
+                break;
+            }
+            if (str.charAt(index) == character) {
+                count ++;
+            }
+        }
+        return count;
+    }
+
 }
