@@ -11,9 +11,9 @@ public class Test {
     public static void main(String[] args) {
         SolutionOne solutionOne = new SolutionOne();
         SolutionTwo solutionTwo = new SolutionTwo();
-        SolutionThree solutionThree = new SolutionThree();
+        SolutionFive solutionFive = new SolutionFive();
         //solutionTwo.moveZeroes(new int [] {0,0,1});
-        System.out.println(solutionThree.plusOne(new int[] {9}));
+        System.out.println(solutionFive.generate(5));
       //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 
