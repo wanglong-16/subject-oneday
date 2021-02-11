@@ -13,7 +13,7 @@ public class Test {
         SolutionTwo solutionTwo = new SolutionTwo();
         SolutionFive solutionFive = new SolutionFive();
         //solutionTwo.moveZeroes(new int [] {0,0,1});
-        System.out.println(solutionFive.longestCommonPrefix(new String[] {"flower","flower","flower","flower"}));
+        System.out.println(solutionFive.removeElementV1(new int [] {0,1,2,2,3,0,4,2}, 2));
       //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 
