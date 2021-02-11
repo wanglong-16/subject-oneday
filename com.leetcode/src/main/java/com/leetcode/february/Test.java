@@ -9,11 +9,9 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionOne solutionOne = new SolutionOne();
-        SolutionTwo solutionTwo = new SolutionTwo();
-        SolutionFive solutionFive = new SolutionFive();
+        SolutionSix solutionSix = new SolutionSix();
         //solutionTwo.moveZeroes(new int [] {0,0,1});
-        System.out.println(solutionFive.removeElementV1(new int [] {0,1,2,2,3,0,4,2}, 2));
+        System.out.println(solutionSix.strStr("abc", "c"));
       //  System.out.println(solutionOne.isIsomorphic("badc", "baba"));
     }
 

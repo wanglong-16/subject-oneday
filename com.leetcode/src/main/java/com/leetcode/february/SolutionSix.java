@@ -1,7 +1,6 @@
 package com.leetcode.february;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @description:
@@ -148,6 +147,180 @@ public class SolutionSix {
                 chars[j][i * (numRows - 1)] = template[i];
             }
         }
+        return ;
+    }
+
+    /**
+     * 28. 实现 strStr()
+     * 实现 strStr() 函数。
+     *
+     * 给定一个 haystack 字符串和一个 needle 字符串，在 haystack 字符串中找出 needle 字符串出现的第一个位置 (从0开始)。如果不存在，则返回  -1。
+     *
+     * 示例 1:
+     *
+     * 输入: haystack = "hello", needle = "ll"
+     * 输出: 2
+     * 示例 2:
+     *
+     * 输入: haystack = "aaaaa", needle = "bba"
+     * 输出: -1
+     * 说明:
+     *
+     * 当 needle 是空字符串时，我们应当返回什么值呢？这是一个在面试中很好的问题。
+     *
+     * 对于本题而言，当 needle 是空字符串时我们应当返回 0 。这与C语言的 strstr() 以及 Java的 indexOf() 定义相符。
+     */
+    public int strStr(String haystack, String needle) {
+        if (needle == null || "".equals(needle) || haystack.equals(needle)) {
+            return 0;
+        }
+        if (needle.length() > haystack.length()) {
+            return -1;
+        }
+        int neLen = needle.length();
+        for (int i = 0; i <= haystack.length() - neLen; i++) {
+            if (haystack.substring(i, i + neLen).equals(needle)) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 35. 搜索插入位置
+     * 给定一个排序数组和一个目标值，在数组中找到目标值，并返回其索引。如果目标值不存在于数组中，返回它将会被按顺序插入的位置。
+     *
+     * 你可以假设数组中无重复元素。
+     *
+     * 示例 1:
+     *
+     * 输入: [1,3,5,6], 5
+     * 输出: 2
+     * 示例 2:
+     *
+     * 输入: [1,3,5,6], 2
+     * 输出: 1
+     * 示例 3:
+     *
+     * 输入: [1,3,5,6], 7
+     * 输出: 4
+     */
+    public int searchInsert(int[] nums, int target) {
+        int index = -1;
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] >= target) {
+                index = i;
+                break;
+            }
+        }
+        return index == -1 ? nums.length : index;
+    }
+
+    // 排序和二分查找
+    public int searchInsertV1(int[] nums, int target) {
+        int n = nums.length;
+        int left = 0, right = n - 1, ans = n;
+        while (left <= right) {
+            int mid = ((right - left) >> 1) + left;
+            if (target <= nums[mid]) {
+                ans = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 1748. 唯一元素的和
+     * 给你一个整数数组 nums 。数组中唯一元素是那些只出现 恰好一次 的元素。
+     *
+     * 请你返回 nums 中唯一元素的 和 。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：nums = [1,2,3,2]
+     * 输出：4
+     * 解释：唯一元素为 [1,3] ，和为 4 。
+     * 示例 2：
+     *
+     * 输入：nums = [1,1,1,1,1]
+     * 输出：0
+     * 解释：没有唯一元素，和为 0 。
+     * 示例 3 ：
+     *
+     * 输入：nums = [1,2,3,4,5]
+     * 输出：15
+     * 解释：唯一元素为 [1,2,3,4,5] ，和为 15 。
+     */
+    public int sumOfUnique(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (Integer i : nums) {
+            map.merge(i, 1, Integer::sum);
+        }
+        int ret = 0;
+        for (Map.Entry entry : map.entrySet()) {
+            if (Integer.parseInt(entry.getValue().toString()) == 1) {
+                ret += Integer.parseInt(entry.getKey().toString());
+            }
+        }
+        return ret;
+    }
+
+    /**
+     * 1512. 好数对的数目
+     * 给你一个整数数组 nums 。
+     *
+     * 如果一组数字 (i,j) 满足 nums[i] == nums[j] 且 i < j ，就可以认为这是一组 好数对 。
+     *
+     * 返回好数对的数目。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：nums = [1,2,3,1,1,3]
+     * 输出：4
+     * 解释：有 4 组好数对，分别是 (0,3), (0,4), (3,4), (2,5) ，下标从 0 开始
+     * 示例 2：
+     *
+     * 输入：nums = [1,1,1,1]
+     * 输出：6
+     * 解释：数组中的每组数字都是好数对
+     * 示例 3：
+     *
+     * 输入：nums = [1,2,3]
+     * 输出：0
+     */
+    public int numIdenticalPairs(int[] nums) {
+        int goodNums = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[i] == nums[j]) {
+                    goodNums ++;
+                }
+            }
+        }
+        return goodNums;
+    }
+
+    //hash表加统计法
+    public int numIdenticalPairsV1(int[] nums) {
+        Map<Integer, Integer> m = new HashMap<Integer, Integer>();
+        for (int num : nums) {
+            m.put(num, m.getOrDefault(num, 0) + 1);
+        }
+
+        int ans = 0;
+        for (Map.Entry<Integer, Integer> entry : m.entrySet()) {
+            int v = entry.getValue();
+            ans += v * (v - 1) / 2;
+        }
+
+        return ans;
     }
 
 }
