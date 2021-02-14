@@ -147,7 +147,7 @@ public class SolutionSix {
                 chars[j][i * (numRows - 1)] = template[i];
             }
         }
-        return ;
+        return "";
     }
 
     /**
