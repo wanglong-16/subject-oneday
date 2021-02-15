@@ -30,6 +30,9 @@ public class SolutionSeven {
             if (words[p1].equals(word1)) {
                 int p2Left = p1, p2Right = p1;
                 while (p2Left < words.length) {
+                    if ((p2Left - p1) >= minDistance) {
+                        break;
+                    }
                     if (words[p2Left].equals(word2)) {
                         minDistance = Math.min(minDistance, p2Left - p1);
                         break;
@@ -37,6 +40,9 @@ public class SolutionSeven {
                     p2Left ++;
                 }
                 while (p2Right >= 0) {
+                    if ((p1 - p2Right) >= minDistance) {
+                        break;
+                    }
                     if (words[p2Right].equals(word2)) {
                         minDistance = Math.min(minDistance, p1 - p2Right);
                         break;
@@ -88,11 +94,49 @@ public class SolutionSeven {
         char[] characters = digits.toCharArray();
         List<String> result = new ArrayList<>();
         List<List<Character>> patterns = new ArrayList<>();
-        StringBuilder stringBuilder = 
+        StringBuilder stringBuilder = null;
         for (Character character : characters) {
             for (Character character1 : map.get(character)) {
 
             }
         }
+
+        return result;
+    }
+
+    /**
+     * 485. 最大连续1的个数
+     * 给定一个二进制数组， 计算其中最大连续1的个数。
+     *
+     * 示例 1:
+     *
+     * 输入: [1,1,0,1,1,1]
+     * 输出: 3
+     * 解释: 开头的两位和最后的三位都是连续1，所以最大连续1的个数是 3.
+     * 注意：
+     *
+     * 输入的数组只包含 0 和1。
+     * 输入数组的长度是正整数，且不超过 10,000。
+     */
+    public int findMaxConsecutiveOnes(int[] nums) {
+        int pStart = 0, pNext = 0, maxConsecutiveOnes = 0;
+        while (pNext < nums.length) {
+            if (nums[pNext] == 1) {
+                pNext ++;
+            } else {
+                maxConsecutiveOnes = Math.max(maxConsecutiveOnes, pNext - pStart);
+                for (int j = pNext; j < nums.length; j++) {
+                    if (nums[j] == 1) {
+                        pNext = j;
+                        pStart = j;
+                        break;
+                    }
+                    if (j == nums.length - 1) {
+                        return maxConsecutiveOnes;
+                    }
+                }
+            }
+        }
+        return Math.max(maxConsecutiveOnes, pNext - pStart);
     }
 }
