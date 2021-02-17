@@ -247,4 +247,45 @@ public class SolutionNine {
         }
         nums[0] = last;
     }
+
+    /**
+     * 660. 移除 9
+     * 从 1 开始，移除所有包含数字 9 的所有整数，例如 9，19，29，……
+     *
+     * 这样就获得了一个新的整数数列：1，2，3，4，5，6，7，8，10，11，……
+     * 给定正整数 n，请你返回新数列中第 n 个数字是多少。1 是新数列中的第一个数字。     *
+     * 样例 1:
+     * 输入: 9
+     * 输出: 10
+     * 注释 ：n 不会超过 9 x 10^8。
+     */
+    public int newInteger(int n) {
+        for (int i = 1; i <= n; i++) {
+            if (containsNine(i)) {
+                n ++;
+            }
+        }
+        return n;
+    }
+
+    private boolean containsNine(int n) {
+        while (n != 0) {
+            if (n % 10 == 9) {
+                return true;
+            }
+            n /= 10;
+        }
+        return false;
+    }
+
+    public int newIntegerV1(int n) {
+        return Integer.parseInt(Integer.toString(n, 9));
+    }
+
+    // n 不会超过 9 x 10^8。
+//    private boolean containsNine(int n) {
+//        return (n + 1) % 10 == 0 || (n + 10) % 100 == 0 || (n + 100) % 1000 == 0
+//                || (n + 1000) % 10000 == 0 || (n + 10000) % 100000 == 0 || (n + 100000) % 1000000 == 0 ||
+//                (n + 1000000) % 100000000 == 0 || (n + 10000000) % 100000000 == 0 || (n + 100000000) % 1000000000 == 0;
+//    }
 }
