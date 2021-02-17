@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionEight solutionEight = new SolutionEight();
-        System.out.println(solutionEight.findTheDifference("abcd", "abcde"));
+        SolutionNine solutionNine = new SolutionNine();
+        System.out.println(solutionNine.containsNearbyDuplicate(new int [] {1,2,3}, 3));
     }
 
 }
