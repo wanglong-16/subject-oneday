@@ -1,5 +1,8 @@
 package com.leetcode.january;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -18,27 +21,42 @@ public class SolutionFour {
      * 解释：小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。
      */
     public int countPrimes(int n) {
-        int count = 0;
-        for (int i = 0; i < n; i++) {
-            if (i == 2) {
-                count ++;
+        List<Integer> primes = new ArrayList<>();
+        if (n == 0 || n == 1) {
+            return 0;
+        } else if (n == 2){
+            return 1;
+        } else {
+            primes.add(2);
+            for (int i = 2; i < n; i++) {
+                if (isPrime(i, primes)) {
+                    primes.add(i);
+                }
             }
-            if (i % 2 == 0 || i % 3 == 0) {
-                continue;
-            }
-            if (isPrime(i)) {
-                count ++;
-            }
+            return primes.size();
         }
-        return count;
     }
 
-    public boolean isPrime(int n) {
-        if (n <= 1) {
-            return false;
-        }
-        for (int i = 2; i <= Math.sqrt(n); i++) {
+    public boolean isPrime(int n, List<Integer> primes) {
+        for (Integer i : primes) {
             if (n % i == 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public int countPrimesV1(int n) {
+        int ans = 0;
+        for (int i = 2; i < n; ++i) {
+            ans += isPrime(i) ? 1 : 0;
+        }
+        return ans;
+    }
+
+    public boolean isPrime(int x) {
+        for (int i = 2; i * i <= x; ++i) {
+            if (x % i == 0) {
                 return false;
             }
         }
