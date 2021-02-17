@@ -177,18 +177,12 @@ public class SolutionNine {
     /**
      * 87. 字符串中的第一个唯一字符
      * 给定一个字符串，找到它的第一个不重复的字符，并返回它的索引。如果不存在，则返回 -1。
-     *
-     *
-     *
      * 示例：
-     *
      * s = "leetcode"
      * 返回 0
      *
      * s = "loveleetcode"
      * 返回 2
-     *
-     *
      * 提示：你可以假定该字符串只包含小写字母。
      */
     public int firstUniqChar(String s) {
@@ -204,5 +198,53 @@ public class SolutionNine {
             }
         }
         return -1;
+    }
+
+    /**
+     * 189. 旋转数组
+     * 给定一个数组，将数组中的元素向右移动 k 个位置，其中 k 是非负数。
+     * 进阶：
+     * 尽可能想出更多的解决方案，至少有三种不同的方法可以解决这个问题。
+     * 你可以使用空间复杂度为 O(1) 的 原地 算法解决这个问题吗？
+     * 示例 1:
+     * 输入: nums = [1,2,3,4,5,6,7], k = 3
+     * 输出: [5,6,7,1,2,3,4]
+     * 解释:
+     * 向右旋转 1 步: [7,1,2,3,4,5,6]
+     * 向右旋转 2 步: [6,7,1,2,3,4,5]
+     * 向右旋转 3 步: [5,6,7,1,2,3,4]
+     * 示例 2:
+     * 输入：nums = [-1,-100,3,99], k = 2
+     * 输出：[3,99,-1,-100]
+     * 解释:
+     * 向右旋转 1 步: [99,-1,-100,3]
+     * 向右旋转 2 步: [3,99,-1,-100]
+     * 提示：
+     * 1 <= nums.length <= 2 * 104
+     * -231 <= nums[i] <= 231 - 1
+     * 0 <= k <= 105
+     */
+    public void rotateV1(int[] nums, int k) {
+        //计算移动后的坐标插入结果数组
+        int [] result = nums.clone();
+        for (int i = 0; i < nums.length; i++) {
+            nums[(k + i) % result.length] = result[i];
+        }
+    }
+
+    //迭代，每次向右走一步
+    public void rotate(int[] nums, int k) {
+        //计算移动后的坐标插入结果数组
+        for (int i = 0; i < k; i++) {
+            moveStepOne(nums);
+        }
+    }
+
+    public void moveStepOne(int [] nums) {
+        int last = nums[nums.length - 1];
+        for (int i = nums.length - 2; i >= 0; i--) {
+            nums[i + 1] = nums[i];
+        }
+        nums[0] = last;
     }
 }
