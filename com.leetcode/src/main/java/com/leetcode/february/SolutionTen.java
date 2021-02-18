@@ -1,6 +1,8 @@
 package com.leetcode.february;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description:
@@ -27,11 +29,11 @@ public class SolutionTen {
      * 输入: [0,1,0,1,0,1,99]
      * 输出: 99
      */
+    //排序 + 比较
     public int singleNumberV1(int[] nums) {
         if (nums.length == 1) {
             return nums[0];
         }
-        //排序加比较
         int result = 0;
         Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
@@ -51,9 +53,32 @@ public class SolutionTen {
         return result;
     }
 
-    // 位运算
+    // map 计数
     public int singleNumber(int[] nums) {
+        Map<Integer, Integer> map = new HashMap<>(nums.length / 2);
+        for (Integer integer : nums) {
+            if (map.containsKey(integer)) {
+                map.put(integer, map.get(integer) + 1);
+            } else {
+                map.put(integer, 1);
+            }
+        }
+        for (Map.Entry entry : map.entrySet()) {
+            if (entry.getValue().equals(1)) {
+                return (int) entry.getKey();
+            }
+        }
         return 0;
+    }
+
+    //位运算
+    public int singleNumberV2(int[] nums) {
+        int seenOnce = 0, seenTwice = 0;
+        for (int num : nums) {
+            seenOnce = ~ seenTwice & (seenOnce ^ num);
+            seenTwice = ~ seenOnce & (seenTwice ^ num);
+        }
+        return seenOnce;
     }
     
 }
