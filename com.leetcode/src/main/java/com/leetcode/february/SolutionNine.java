@@ -288,4 +288,75 @@ public class SolutionNine {
 //                || (n + 1000) % 10000 == 0 || (n + 10000) % 100000 == 0 || (n + 100000) % 1000000 == 0 ||
 //                (n + 1000000) % 100000000 == 0 || (n + 10000000) % 100000000 == 0 || (n + 100000000) % 1000000000 == 0;
 //    }
+
+    /**
+     * 461. 汉明距离
+     * 两个整数之间的汉明距离指的是这两个数字对应二进制位不同的位置的数目。
+     *
+     * 给出两个整数 x 和 y，计算它们之间的汉明距离。
+     *
+     * 注意：
+     * 0 ≤ x, y < 231.
+     *
+     * 示例:
+     *
+     * 输入: x = 1, y = 4
+     *
+     * 输出: 2
+     *
+     * 解释:
+     * 1   (0 0 0 1)
+     * 4   (0 1 0 0)
+     *        ↑   ↑
+     *
+     * 上面的箭头指出了对应二进制位不同的位置。
+     */
+    public int hammingDistance(int x, int y) {
+        int mask = 1, hammingCount = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((x & mask) != (y & mask)) {
+                hammingCount ++;
+            }
+            x >>= 1;
+            y >>= 1;
+        }
+        return hammingCount;
+    }
+
+    /**
+     * 78. 子集
+     * 给你一个整数数组 nums ，数组中的元素 互不相同 。返回该数组所有可能的子集（幂集）。
+     * 解集 不能 包含重复的子集。你可以按 任意顺序 返回解集。
+     * 示例 1：
+     * 输入：nums = [1,2,3]
+     * 输出：[[],[1],[2],[1,2],[3],[1,3],[2,3],[1,2,3]]
+     * 示例 2：
+     * 输入：nums = [0]
+     * 输出：[[],[0]]
+     * 提示：
+     * 1 <= nums.length <= 10
+     * -10 <= nums[i] <= 10
+     * nums 中的所有元素 互不相同
+     *
+     * 0000, 0001, ... ,1111
+     */
+    public List<List<Integer>> subsets(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        int maxPosVal = (1 << nums.length);
+        for (int i = 0; i < maxPosVal; i++) {
+            result.add(generateList(i, nums.length, nums));
+        }
+        return result;
+    }
+
+    private List<Integer> generateList(int posVal, int len, int[] nums) {
+        List<Integer> result = new ArrayList<>();
+        for (int i = len - 1; i >= 0; i--) {
+            if ((posVal & 1) == 1) {
+                result.add(nums[i]);
+            }
+            posVal >>= 1;
+        }
+        return result;
+    }
 }

@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionNine solutionNine = new SolutionNine();
-        System.out.println(solutionNine.containsNearbyDuplicate(new int [] {1,2,3}, 3));
+        SolutionTen solutionTen = new SolutionTen();
+        System.out.println(solutionTen.singleNumber(new int [] {0,1,0,1,0,1,99}));
     }
 
 }
