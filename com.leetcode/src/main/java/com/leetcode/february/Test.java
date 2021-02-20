@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionTen solutionTen = new SolutionTen();
-        System.out.println(solutionTen.singleNumber(new int [] {0,1,0,1,0,1,99}));
+        SolutionEleven solutionEleven = new SolutionEleven();
+        System.out.println(solutionEleven.rangeBitwiseAnd(64, 97));
     }
 
 }
