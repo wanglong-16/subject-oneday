@@ -178,4 +178,87 @@ public class SolutionTen {
         return rets;
     }
 
+    /**
+     * 338. 比特位计数
+     * 给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
+     *
+     * 示例 1:
+     *
+     * 输入: 2
+     * 输出: [0,1,1]
+     * 示例 2:
+     *
+     * 输入: 5
+     * 输出: [0,1,1,2,1,2]
+     * 进阶:
+     *
+     * 给出时间复杂度为O(n*sizeof(integer))的解答非常容易。但你可以在线性时间O(n)内用一趟扫描做到吗？
+     * 要求算法的空间复杂度为O(n)。
+     * 你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount）来执行此操作。
+     */
+    public int[] countBits(int num) {
+        int [] result = new int[num + 1];
+        for (int i = 0; i <= num ; i++) {
+            result[i] = bitCount(i);
+        }
+        return result;
+    }
+
+    private int bitCount(int n) {
+        int bitOneTotal = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((n & 1) == 1) {
+                bitOneTotal ++;
+            }
+            n >>= 1;
+        }
+        return bitOneTotal;
+    }
+
+    /**
+     * 476. 数字的补数
+     * 给定一个正整数，输出它的补数。补数是对该数的二进制表示取反。
+     * 示例 1:
+     *
+     * 输入: 5
+     * 输出: 2
+     * 解释: 5 的二进制表示为 101（没有前导零位），其补数为 010。所以你需要输出 2 。
+     * 示例 2:
+     *
+     * 输入: 1
+     * 输出: 0
+     * 解释: 1 的二进制表示为 1（没有前导零位），其补数为 0。所以你需要输出 0 。
+     */
+    public int findComplementV1(int num) {
+        int [] bits = new int[32];
+        for (int i = 0; i < 32; i++) {
+            bits[i] = num & 1;
+            num >>= 1;
+        }
+        int result = 0, firstOne = 0;
+        for (int i = 32 - 1; i >= 0; i--) {
+            if (bits[i] != 0) {
+                firstOne = i;
+                break;
+            }
+        }
+        for (int i = 0; i <= firstOne; i++) {
+            int reverse = bits[i] == 1 ? 0 : 1;
+            result += reverse * Math.pow(2, i);
+        }
+        return result;
+    }
+
+    public int findComplement(int num) {
+        int maxBitPos = 0, temp = num;
+        for (int i = 0; i < 32; i++) {
+            if (temp == 0) {
+                maxBitPos = i;
+                break;
+            }
+            temp >>= 1;
+        }
+        return num ^ (1 >> maxBitPos - 1);
+    }
+
 }
