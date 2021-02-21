@@ -187,4 +187,144 @@ public class SolutionEleven {
         }
         return result;
     }
+
+    /**
+     * 268. 丢失的数字
+     * 给定一个包含 [0, n] 中 n 个数的数组 nums ，找出 [0, n] 这个范围内没有出现在数组中的那个数。
+     *
+     *
+     *
+     * 进阶：
+     *
+     * 你能否实现线性时间复杂度、仅使用额外常数空间的算法解决此问题?
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：nums = [3,0,1]
+     * 输出：2
+     * 解释：n = 3，因为有 3 个数字，所以所有的数字都在范围 [0,3] 内。2 是丢失的数字，因为它没有出现在 nums 中。
+     * 示例 2：
+     *
+     * 输入：nums = [0,1]
+     * 输出：2
+     * 解释：n = 2，因为有 2 个数字，所以所有的数字都在范围 [0,2] 内。2 是丢失的数字，因为它没有出现在 nums 中。
+     * 示例 3：
+     *
+     * 输入：nums = [9,6,4,2,3,5,7,0,1]
+     * 输出：8
+     * 解释：n = 9，因为有 9 个数字，所以所有的数字都在范围 [0,9] 内。8 是丢失的数字，因为它没有出现在 nums 中。
+     * 示例 4：
+     *
+     * 输入：nums = [0]
+     * 输出：1
+     * 解释：n = 1，因为有 1 个数字，所以所有的数字都在范围 [0,1] 内。1 是丢失的数字，因为它没有出现在 nums 中。
+     *
+     *
+     * 提示：
+     *
+     * n == nums.length
+     * 1 <= n <= 104
+     * 0 <= nums[i] <= n
+     * nums 中的所有数字都 独一无二
+     */
+    public int missingNumber(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 0; i < nums.length; i++) {
+            if (i != nums[i]) {
+                return i;
+            }
+        }
+        return nums.length;
+    }
+
+    public int missingNumberV1(int[] nums) {
+        int result = nums.length;
+        for (int i = 0; i < nums.length; i++) {
+            result ^= i ^ nums[i];
+        }
+        return result;
+    }
+
+    /**
+     * 1486. 数组异或操作
+     * 给你两个整数，n 和 start 。
+     *
+     * 数组 nums 定义为：nums[i] = start + 2*i（下标从 0 开始）且 n == nums.length 。
+     *
+     * 请返回 nums 中所有元素按位异或（XOR）后得到的结果。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：n = 5, start = 0
+     * 输出：8
+     * 解释：数组 nums 为 [0, 2, 4, 6, 8]，其中 (0 ^ 2 ^ 4 ^ 6 ^ 8) = 8 。
+     *      "^" 为按位异或 XOR 运算符。
+     * 示例 2：
+     *
+     * 输入：n = 4, start = 3
+     * 输出：8
+     * 解释：数组 nums 为 [3, 5, 7, 9]，其中 (3 ^ 5 ^ 7 ^ 9) = 8.
+     * 示例 3：
+     *
+     * 输入：n = 1, start = 7
+     * 输出：7
+     * 示例 4：
+     *
+     * 输入：n = 10, start = 5
+     * 输出：2
+     *
+     *
+     * 提示：
+     *
+     * 1 <= n <= 1000
+     * 0 <= start <= 1000
+     * n == nums.length
+     */
+    public int xorOperation(int n, int start) {
+        for (int i = 1; i < n; i++) {
+            start ^= start + 2 * i;
+        }
+        return start;
+    }
+
+    /**
+     * 342. 4的幂
+     * 给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 true ；否则，返回 false 。
+     *
+     * 整数 n 是 4 的幂次方需满足：存在整数 x 使得 n == 4x
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：n = 16
+     * 输出：true
+     * 示例 2：
+     *
+     * 输入：n = 5
+     * 输出：false
+     * 示例 3：
+     *
+     * 输入：n = 1
+     * 输出：true
+     */
+    public boolean isPowerOfFour(int n) {
+        if (n <= 0) {
+            return false;
+        }
+        for (int i = 1; i < 32; i+=2) {
+            if (n == (1 << i)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPowerOfFourV1(int num) {
+        return (num > 0) && ((num & (num - 1)) == 0) && ((num & 0xaaaaaaaa) == 0);
+    }
+
 }
