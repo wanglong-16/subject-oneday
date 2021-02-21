@@ -127,4 +127,64 @@ public class SolutionEleven {
         return stringBuilder.reverse().toString();
     }
 
+    /**
+     * 477. 汉明距离总和
+     * 两个整数的 汉明距离 指的是这两个数字的二进制数对应位不同的数量。
+     *
+     * 计算一个数组中，任意两个数之间汉明距离的总和。
+     *
+     * 示例:
+     *
+     * 输入: 4, 14, 2
+     *
+     * 输出: 6
+     *
+     * 解释: 在二进制表示中，4表示为0100，14表示为1110，2表示为0010。（这样表示是为了体现后四位之间关系）
+     * 所以答案为：
+     * HammingDistance(4, 14) + HammingDistance(4, 2) + HammingDistance(14, 2) = 2 + 2 + 2 = 6.
+     * 注意:
+     *
+     * 数组中元素的范围为从 0到 10^9。
+     * 数组的长度不超过 10^4。
+     */
+    public int totalHammingDistanceV1(int[] nums) {
+        int total = 0;
+        for (int i = 0; i < nums.length; i++) {
+            for (int j = i + 1; j < nums.length; j++) {
+                total += hammingDistance(nums[i], nums[j]);
+            }
+        }
+        return total;
+    }
+
+    public int hammingDistance(int m, int n) {
+        int count = 0;
+        for (int i = 0; i < 32; i++) {
+            if ((m & 1) != (n & 1)) {
+                count ++;
+            }
+            m >>= 1;
+            n >>= 1;
+        }
+        return count;
+    }
+
+    public int totalHammingDistance(int[] nums) {
+        int total = 0, result = 0;
+        for (int i = 0; i < 32; i++) {
+            //统计每位的0和1的个数
+            int totalZero = 0;
+            int totalOne = 0;
+            for (int num : nums) {
+                if ((num & (1 << i)) == 1 << i) {
+                    totalOne++;
+                } else {
+                    totalZero++;
+                }
+            }
+            // 某位上存在一个1和其他的m个0组合后，就有m次不同，n个1和m个0最后这位上就是 n * m个不同
+            result += totalOne * totalZero;
+        }
+        return result;
+    }
 }
