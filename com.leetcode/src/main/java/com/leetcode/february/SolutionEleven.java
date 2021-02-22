@@ -295,9 +295,6 @@ public class SolutionEleven {
      * 给定一个整数，写一个函数来判断它是否是 4 的幂次方。如果是，返回 true ；否则，返回 false 。
      *
      * 整数 n 是 4 的幂次方需满足：存在整数 x 使得 n == 4x
-     *
-     *
-     *
      * 示例 1：
      *
      * 输入：n = 16
@@ -324,7 +321,110 @@ public class SolutionEleven {
     }
 
     public boolean isPowerOfFourV1(int num) {
-        return (num > 0) && ((num & (num - 1)) == 0) && ((num & 0xaaaaaaaa) == 0);
+        return (num > 0) &&
+                ((num & (num - 1)) == 0) //只有一位是1
+                && ((num & 0xaaaaaaaa) == 0); //这个位在 1，3，5，7。。位上
+    }
+
+    /**
+     * 401. 二进制手表
+     * 二进制手表顶部有 4 个 LED 代表 小时（0-11），底部的 6 个 LED 代表 分钟（0-59）。
+     *
+     * 每个 LED 代表一个 0 或 1，最低位在右侧。
+     * 例如，上面的二进制手表读取 “3:25”。
+     *
+     * 给定一个非负整数 n 代表当前 LED 亮着的数量，返回所有可能的时间。
+     * 示例：
+     *
+     * 输入: n = 1
+     * 返回: ["1:00", "2:00", "4:00", "8:00", "0:01", "0:02", "0:04", "0:08", "0:16", "0:32"]
+     * 提示：
+     * 输出的顺序没有要求。
+     * 小时不会以零开头，比如 “01:00” 是不允许的，应为 “1:00”。
+     * 分钟必须由两位数组成，可能会以零开头，比如 “10:2” 是无效的，应为 “10:02”。
+     * 超过表示范围（小时 0-11，分钟 0-59）的数据将会被舍弃，也就是说不会出现 "13:00", "0:61" 等时间。
+     */
+    public List<String> readBinaryWatch(int num) {
+        List<String> result = new ArrayList<>();
+        // 0 - 11 的二进制表示 1011
+        for (int i = 0; i < 12; i++) {
+            for (int j = 0; j < 60; j++) {
+                if ((countBitOne(i) + countBitOne(j)) == num) {
+                    String minutesFormat = j < 10 ? String.format("0%s", j) : String.valueOf(j);
+                    result.add(String.format("%s:%s", i, minutesFormat));
+                }
+            }
+        }
+        return result;
+    }
+
+    private int countBitOne(int n) {
+        int count = 0;
+        for (; n != 0; ++count) {
+            n &= n - 1;
+        }
+        return count;
+    }
+
+    /**
+     * 784. 字母大小写全排列
+     * 给定一个字符串S，通过将字符串S中的每个字母转变大小写，我们可以获得一个新的字符串。返回所有可能得到的字符串集合。
+     * 示例：
+     * 输入：S = "a1b2"
+     * 输出：["a1b2", "a1B2", "A1b2", "A1B2"]
+     *
+     * 输入：S = "3z4"
+     * 输出：["3z4", "3Z4"]
+     *
+     * 输入：S = "12345"
+     * 输出：["12345"]
+     * 提示：
+     *
+     * S 的长度不超过12。
+     * S 仅由数字和字母组成。
+     */
+    public List<String> letterCasePermutation(String S) {
+        List<String> result = new ArrayList<>();
+        char [] patterns = S.toCharArray();
+        int lettersTotal = 0;
+        for (char pattern : patterns) {
+            if (!(pattern >= 48 && pattern <= 57)) {
+                lettersTotal++;
+            }
+        }
+        if (lettersTotal == 0) {
+            result.add(S);
+        } else {
+            int combineTotal = 1 << lettersTotal; // 总的可能次数
+            for (int i = 0; i < combineTotal ; i++) {
+                result.add(transBitToString(i, patterns));
+            }
+        }
+        return result;
+    }
+
+    // 使用bit位做全排列统计
+    private String transBitToString(int cur, char [] patterns) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (int i = 0; i < patterns.length; i++) {
+            char curr;
+            if (!(patterns[i] >= 48 && patterns[i] <= 57)) {
+                if ((cur & 1) == 1) {
+                    if (patterns[i] >= 97) {
+                        curr = (char) (patterns[i] - 32);
+                    } else {
+                        curr = (char) (patterns[i] + 32);
+                    }
+                } else {
+                    curr = patterns[i];
+                }
+                cur >>= 1;
+            } else {
+                curr = patterns[i];
+            }
+            stringBuilder.append(curr);
+        }
+        return stringBuilder.toString();
     }
 
 }
