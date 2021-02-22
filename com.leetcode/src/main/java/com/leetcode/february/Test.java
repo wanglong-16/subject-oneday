@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionEleven solutionEleven = new SolutionEleven();
-        System.out.println(solutionEleven.letterCasePermutation("a1b2"));
+        SolutionTwelve solutionTwelve = new SolutionTwelve();
+        System.out.println(solutionTwelve.swapNumbers(new int[] {1,4}));
     }
 
 }
