@@ -10,7 +10,7 @@ public class Test {
 
     public static void main(String[] args) {
         SolutionThirteen solutionThirteen = new SolutionThirteen();
-        System.out.println(solutionThirteen.sortArrayByParityII(new int[] {4,2,5,7}));
+        System.out.println(solutionThirteen.allCellsDistOrder(2, 2, 0, 1));
     }
 
 }
