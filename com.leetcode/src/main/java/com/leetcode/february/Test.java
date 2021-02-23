@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionTwelve solutionTwelve = new SolutionTwelve();
-        System.out.println(solutionTwelve.swapNumbers(new int[] {1,4}));
+        SolutionThirteen solutionThirteen = new SolutionThirteen();
+        System.out.println(solutionThirteen.sortArrayByParityII(new int[] {4,2,5,7}));
     }
 
 }
