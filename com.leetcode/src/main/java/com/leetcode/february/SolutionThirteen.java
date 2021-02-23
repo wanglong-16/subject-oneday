@@ -1,5 +1,7 @@
 package com.leetcode.february;
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -260,5 +262,123 @@ public class SolutionThirteen {
             }
         }
         return true;
+    }
+
+    /**
+     * 832. 翻转图像
+     * 给定一个二进制矩阵 A，我们想先水平翻转图像，然后反转图像并返回结果。
+     *
+     * 水平翻转图片就是将图片的每一行都进行翻转，即逆序。例如，水平翻转 [1, 1, 0] 的结果是 [0, 1, 1]。
+     *
+     * 反转图片的意思是图片中的 0 全部被 1 替换， 1 全部被 0 替换。例如，反转 [0, 1, 1] 的结果是 [1, 0, 0]。
+     *
+     * 示例 1:
+     *
+     * 输入: [[1,1,0],[1,0,1],[0,0,0]]
+     * 输出: [[1,0,0],[0,1,0],[1,1,1]]
+     * 解释: 首先翻转每一行: [[0,1,1],[1,0,1],[0,0,0]]；
+     *      然后反转图片: [[1,0,0],[0,1,0],[1,1,1]]
+     * 示例 2:
+     *
+     * 输入: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+     * 输出: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+     * 解释: 首先翻转每一行: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]；
+     *      然后反转图片: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+     * 说明:
+     *
+     * 1 <= A.length = A[0].length <= 20
+     * 0 <= A[i][j] <= 1
+     */
+    public int[][] flipAndInvertImage(int[][] A) {
+        int [][] ret = new int[A.length][];
+        for (int i = 0; i < A.length; i++) {
+            ret[i] = reverseAndNorArr(A[i]);
+        }
+        return ret;
+    }
+
+    private int [] reverseAndNorArr(int [] arr) {
+        int [] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result [arr.length - i -1] = arr[i] == 1 ? 0 : 1;
+        }
+        return result;
+    }
+
+    /**
+     * 296. 最佳的碰头地点
+     * 有一队人（两人或以上）想要在一个地方碰面，他们希望能够最小化他们的总行走距离。
+     *
+     * 给你一个 2D 网格，其中各个格子内的值要么是 0，要么是 1。
+     *
+     * 1 表示某个人的家所处的位置。这里，我们将使用 曼哈顿距离 来计算，其中 distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|。
+     *
+     * 示例：
+     *
+     * 输入:
+     *
+     * 1 - 0 - 0 - 0 - 1
+     * |   |   |   |   |
+     * 0 - 0 - 0 - 0 - 0
+     * |   |   |   |   |
+     * 0 - 0 - 1 - 0 - 0
+     *
+     * 输出: 6
+     *
+     * 解析: 给定的三个人分别住在(0,0)，(0,4) 和 (2,2):
+     *      (0,2) 是一个最佳的碰面点，其总行走距离为 2 + 2 + 2 = 6，最小，因此返回 6。
+     */
+    public int minTotalDistance(int[][] grid) {
+        List<Position> homePos = new ArrayList<>();
+        List<Position> togetherPos = new ArrayList<>();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    homePos.add(new Position(i, j));
+                }
+                togetherPos.add(new Position(i, j));
+            }
+        }
+        int minDistance = Integer.MAX_VALUE;
+        for (Position pToge : togetherPos) {
+            int distance = 0;
+            for (Position pHome : homePos) {
+                distance += pHome.manHaDunDistance(pToge);
+            }
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        }
+        return minDistance;
+    }
+
+    private class Position {
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public int manHaDunDistance (Position another) {
+            return Math.abs(another.x - x) + Math.abs(another.y - y);
+        }
     }
 }
