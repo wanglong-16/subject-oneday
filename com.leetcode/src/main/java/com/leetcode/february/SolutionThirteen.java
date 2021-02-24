@@ -501,8 +501,8 @@ public class SolutionThirteen {
      * 0 <= nums.length <= 10^5
      * -10^4 <= nums[i] <= 10^4
      */
-    // todo 60/65 ac
-    public List<Integer> countSmaller(int[] nums) {
+    // todo 60/65 ac 带有回溯的解法 错误
+    public List<Integer> countSmallerV1(int[] nums) {
         int [] ret = new int[nums.length];
         List<Integer> result = new ArrayList<>(nums.length);
         int lastCount = 0, lastIndex = nums.length - 1;
@@ -517,6 +517,19 @@ public class SolutionThirteen {
         }
         for (int i = 0; i < ret.length; i++) {
             result.add(ret[i]);
+        }
+        return result;
+    }
+
+    //暴力求解，62/65 超时
+    public List<Integer> countSmallerV2(int[] nums) {
+        int [] ret = new int[nums.length];
+        List<Integer> result = new ArrayList<>(nums.length);
+        for (int i = nums.length - 1; i >= 0; i--) {
+            ret[i] = countOneIndexSmaller(nums, i, nums.length - 1);
+        }
+        for (int value : ret) {
+            result.add(value);
         }
         return result;
     }
