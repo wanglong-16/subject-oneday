@@ -1,5 +1,7 @@
 package com.leetcode.february;
 
+import javafx.geometry.Pos;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -260,5 +262,285 @@ public class SolutionThirteen {
             }
         }
         return true;
+    }
+
+    /**
+     * 832. 翻转图像
+     * 给定一个二进制矩阵 A，我们想先水平翻转图像，然后反转图像并返回结果。
+     *
+     * 水平翻转图片就是将图片的每一行都进行翻转，即逆序。例如，水平翻转 [1, 1, 0] 的结果是 [0, 1, 1]。
+     *
+     * 反转图片的意思是图片中的 0 全部被 1 替换， 1 全部被 0 替换。例如，反转 [0, 1, 1] 的结果是 [1, 0, 0]。
+     *
+     * 示例 1:
+     *
+     * 输入: [[1,1,0],[1,0,1],[0,0,0]]
+     * 输出: [[1,0,0],[0,1,0],[1,1,1]]
+     * 解释: 首先翻转每一行: [[0,1,1],[1,0,1],[0,0,0]]；
+     *      然后反转图片: [[1,0,0],[0,1,0],[1,1,1]]
+     * 示例 2:
+     *
+     * 输入: [[1,1,0,0],[1,0,0,1],[0,1,1,1],[1,0,1,0]]
+     * 输出: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+     * 解释: 首先翻转每一行: [[0,0,1,1],[1,0,0,1],[1,1,1,0],[0,1,0,1]]；
+     *      然后反转图片: [[1,1,0,0],[0,1,1,0],[0,0,0,1],[1,0,1,0]]
+     * 说明:
+     *
+     * 1 <= A.length = A[0].length <= 20
+     * 0 <= A[i][j] <= 1
+     */
+    public int[][] flipAndInvertImage(int[][] A) {
+        int [][] ret = new int[A.length][];
+        for (int i = 0; i < A.length; i++) {
+            ret[i] = reverseAndNorArr(A[i]);
+        }
+        return ret;
+    }
+
+    private int [] reverseAndNorArr(int [] arr) {
+        int [] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            result [arr.length - i -1] = arr[i] == 1 ? 0 : 1;
+        }
+        return result;
+    }
+
+    /**
+     * 296. 最佳的碰头地点
+     * 有一队人（两人或以上）想要在一个地方碰面，他们希望能够最小化他们的总行走距离。
+     *
+     * 给你一个 2D 网格，其中各个格子内的值要么是 0，要么是 1。
+     *
+     * 1 表示某个人的家所处的位置。这里，我们将使用 曼哈顿距离 来计算，其中 distance(p1, p2) = |p2.x - p1.x| + |p2.y - p1.y|。
+     *
+     * 示例：
+     *
+     * 输入:
+     *
+     * 1 - 0 - 0 - 0 - 1
+     * |   |   |   |   |
+     * 0 - 0 - 0 - 0 - 0
+     * |   |   |   |   |
+     * 0 - 0 - 1 - 0 - 0
+     *
+     * 输出: 6
+     *
+     * 解析: 给定的三个人分别住在(0,0)，(0,4) 和 (2,2):
+     *      (0,2) 是一个最佳的碰面点，其总行走距离为 2 + 2 + 2 = 6，最小，因此返回 6。
+     */
+    public int minTotalDistance(int[][] grid) {
+        List<Position> homePos = new ArrayList<>();
+        List<Position> togetherPos = new ArrayList<>();
+        for (int i = 0; i < grid.length; i++) {
+            for (int j = 0; j < grid[0].length; j++) {
+                if (grid[i][j] == 1) {
+                    homePos.add(new Position(i, j));
+                }
+                togetherPos.add(new Position(i, j));
+            }
+        }
+        int minDistance = Integer.MAX_VALUE;
+        for (Position pToge : togetherPos) {
+            int distance = 0;
+            for (Position pHome : homePos) {
+                distance += pHome.manHaDunDistance(pToge);
+            }
+            if (distance < minDistance) {
+                minDistance = distance;
+            }
+        }
+        return minDistance;
+    }
+
+    private class Position {
+        int x;
+        int y;
+
+        public Position(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
+
+        public int getX() {
+            return x;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public int getY() {
+            return y;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
+
+        public int manHaDunDistance (Position another) {
+            return Math.abs(another.x - x) + Math.abs(another.y - y);
+        }
+    }
+
+    /**
+     * 4. 寻找两个正序数组的中位数
+     * 给定两个大小为 m 和 n 的正序（从小到大）数组 nums1 和 nums2。请你找出并返回这两个正序数组的中位数。
+     *
+     * 进阶：你能设计一个时间复杂度为 O(log (m+n)) 的算法解决此问题吗？
+     * 示例 1：
+     *
+     * 输入：nums1 = [1,3], nums2 = [2]
+     * 输出：2.00000
+     * 解释：合并数组 = [1,2,3] ，中位数 2
+     * 示例 2：
+     *
+     * 输入：nums1 = [1,2], nums2 = [3,4]
+     * 输出：2.50000
+     * 解释：合并数组 = [1,2,3,4] ，中位数 (2 + 3) / 2 = 2.5
+     * 示例 3：
+     *
+     * 输入：nums1 = [0,0], nums2 = [0,0]
+     * 输出：0.00000
+     * 示例 4：
+     *
+     * 输入：nums1 = [], nums2 = [1]
+     * 输出：1.00000
+     * 示例 5：
+     *
+     * 输入：nums1 = [2], nums2 = []
+     * 输出：2.00000
+     * 提示：
+     *
+     * nums1.length == m
+     * nums2.length == n
+     * 0 <= m <= 1000
+     * 0 <= n <= 1000
+     * 1 <= m + n <= 2000
+     * -106 <= nums1[i], nums2[i] <= 106
+     */
+    public double findMedianSortedArrays(int[] nums1, int[] nums2) {
+        List<Integer> newArr = new ArrayList<>(nums1.length + nums2.length);
+        int nums1Ptr = 0, nums2Ptr = 0;
+
+        while (nums1Ptr < nums1.length || nums2Ptr < nums2.length) {
+            if (nums1Ptr < nums1.length && nums2Ptr < nums2.length) {
+                if (nums1[nums1Ptr] <= nums2[nums2Ptr]) {
+                    newArr.add(nums1[nums1Ptr]);
+                    nums1Ptr ++;
+                } else {
+                    newArr.add(nums2[nums2Ptr]);
+                    nums2Ptr ++;
+                }
+            } else if (nums1Ptr >= nums1.length) {
+                newArr.add(nums2[nums2Ptr]);
+                nums2Ptr ++;
+            } else {
+                newArr.add(nums1[nums1Ptr]);
+                nums1Ptr ++;
+            }
+        }
+        newArr.sort(Comparator.comparingInt(o -> o));
+        if (newArr.size() % 2 == 0) {
+            return (double) (newArr.get(newArr.size() / 2) + newArr.get((newArr.size() / 2) - 1)) / 2;
+        } else {
+            return (double) (newArr.get(newArr.size() / 2));
+        }
+    }
+
+    //todo check https://leetcode-cn.com/problems/median-of-two-sorted-arrays/solution/xun-zhao-liang-ge-you-xu-shu-zu-de-zhong-wei-s-114/
+    public double findMedianSortedArraysV1(int[] nums1, int[] nums2) {
+        if (nums1.length > nums2.length) {
+            return findMedianSortedArraysV1(nums2, nums1);
+        }
+
+        int m = nums1.length;
+        int n = nums2.length;
+        int left = 0, right = m;
+        // median1：前一部分的最大值
+        // median2：后一部分的最小值
+        int median1 = 0, median2 = 0;
+
+        while (left <= right) {
+            // 前一部分包含 nums1[0 .. i-1] 和 nums2[0 .. j-1]
+            // 后一部分包含 nums1[i .. m-1] 和 nums2[j .. n-1]
+            int i = (left + right) / 2;
+            int j = (m + n + 1) / 2 - i;
+
+            // nums_im1, nums_i, nums_jm1, nums_j 分别表示 nums1[i-1], nums1[i], nums2[j-1], nums2[j]
+            int nums_im1 = (i == 0 ? Integer.MIN_VALUE : nums1[i - 1]);
+            int nums_i = (i == m ? Integer.MAX_VALUE : nums1[i]);
+            int nums_jm1 = (j == 0 ? Integer.MIN_VALUE : nums2[j - 1]);
+            int nums_j = (j == n ? Integer.MAX_VALUE : nums2[j]);
+
+            if (nums_im1 <= nums_j) {
+                median1 = Math.max(nums_im1, nums_jm1);
+                median2 = Math.min(nums_i, nums_j);
+                left = i + 1;
+            } else {
+                right = i - 1;
+            }
+        }
+
+        return (m + n) % 2 == 0 ? (median1 + median2) / 2.0 : median1;
+    }
+
+    /**
+     * 315. 计算右侧小于当前元素的个数
+     * 给定一个整数数组 nums，按要求返回一个新数组 counts。数组 counts 有该性质： counts[i] 的值是  nums[i] 右侧小于 nums[i] 的元素的数量。
+     * 示例：
+     *
+     * 输入：nums = [5,2,6,1]
+     * 输出：[2,1,1,0]
+     * 解释：
+     * 5 的右侧有 2 个更小的元素 (2 和 1)
+     * 2 的右侧仅有 1 个更小的元素 (1)
+     * 6 的右侧有 1 个更小的元素 (1)
+     * 1 的右侧有 0 个更小的元素
+     * 提示：
+     *
+     * 0 <= nums.length <= 10^5
+     * -10^4 <= nums[i] <= 10^4
+     */
+    // todo 60/65 ac 带有回溯的解法 错误
+    public List<Integer> countSmallerV1(int[] nums) {
+        int [] ret = new int[nums.length];
+        List<Integer> result = new ArrayList<>(nums.length);
+        int lastCount = 0, lastIndex = nums.length - 1;
+        for (int i = nums.length - 1; i >= 0; i--) {
+            if (nums[i] >= nums[lastIndex]) {
+                lastCount = countOneIndexSmaller(nums, i, lastIndex) + lastCount;
+                ret[i] = lastCount;
+                lastIndex = i;
+            } else {
+                ret[i] = countOneIndexSmaller(nums, i, nums.length - 1);
+            }
+        }
+        for (int i = 0; i < ret.length; i++) {
+            result.add(ret[i]);
+        }
+        return result;
+    }
+
+    //暴力求解，62/65 超时
+    public List<Integer> countSmallerV2(int[] nums) {
+        int [] ret = new int[nums.length];
+        List<Integer> result = new ArrayList<>(nums.length);
+        for (int i = nums.length - 1; i >= 0; i--) {
+            ret[i] = countOneIndexSmaller(nums, i, nums.length - 1);
+        }
+        for (int value : ret) {
+            result.add(value);
+        }
+        return result;
+    }
+
+    private int countOneIndexSmaller(int[] nums, int pos, int start) {
+        int count = 0;
+        for (int i = start; i >= pos; i--) {
+            if (nums[i] < nums[pos]) {
+                count ++;
+            }
+        }
+        return count;
     }
 }
