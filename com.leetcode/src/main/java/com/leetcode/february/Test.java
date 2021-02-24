@@ -10,7 +10,7 @@ public class Test {
 
     public static void main(String[] args) {
         SolutionThirteen solutionThirteen = new SolutionThirteen();
-        System.out.println(solutionThirteen.allCellsDistOrder(2, 2, 0, 1));
+        System.out.println(solutionThirteen.countSmaller(new int[] {5,2,6,1}));
     }
 
 }
