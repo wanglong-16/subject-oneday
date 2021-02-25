@@ -1,6 +1,6 @@
 package com.leetcode.february;
 
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * @description:
@@ -225,4 +225,217 @@ public class SolutionFourteen {
         }
         return stringBuilder.toString();
     }
+
+    /**
+     * 56. 合并区间
+     * 以数组 intervals 表示若干个区间的集合，其中单个区间为 intervals[i] = [starti, endi] 。请你合并所有重叠的区间，并返回一个不重叠的区间数组，该数组需恰好覆盖输入中的所有区间。
+     * 示例 1：
+     *
+     * 输入：intervals = [[1,3],[2,6],[8,10],[15,18]]
+     * 输出：[[1,6],[8,10],[15,18]]
+     * 解释：区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+     * 示例 2：
+     *
+     * 输入：intervals = [[1,4],[4,5]]
+     * 输出：[[1,5]]
+     * 解释：区间 [1,4] 和 [4,5] 可被视为重叠区间。
+     */
+    public int[][] merge(int[][] intervals) {
+        Interval [] intervalArr = new Interval[intervals.length];
+        for (int i = 0; i < intervals.length; i++) {
+            intervalArr[i] = new Interval(intervals[i][0], intervals[i][1]);
+        }
+        Arrays.sort(intervalArr);
+        int [][] result = new int[intervals.length][2];
+        int left = intervals.length / 2, right = intervals.length / 2;
+        while (left >=0 || right < intervals.length) {
+            Interval l = intervalArr[left];
+            Interval r = intervalArr[right];
+
+            left --;
+            right ++;
+        }
+        return result;
+    }
+
+
+    private class Interval implements Comparable<Interval> {
+        int start;
+        int end;
+        double mid;
+
+        public Interval(int start, int end) {
+            this.start = start;
+            this.end = end;
+            this.mid = (double) (start + end) / 2;
+        }
+
+        public int getStart() {
+            return start;
+        }
+
+        public int getEnd() {
+            return end;
+        }
+
+        @Override
+        public int compareTo(Interval o) {
+            return (int) (this.mid - o.mid);
+        }
+    }
+
+    /**
+     * 280. 摆动排序
+     * 给你一个无序的数组 nums, 将该数字 原地 重排后使得 nums[0] <= nums[1] >= nums[2] <= nums[3]...。
+     *
+     * 示例:
+     *
+     * 输入: nums = [3,5,2,1,6,4]
+     * 输出: 一个可能的解答是 [3,5,1,6,2,4]
+     */
+    public void wiggleSort(int[] nums) {
+        Arrays.sort(nums);
+        for (int i = 1; i + 1 < nums.length; i += 2) {
+            int temp = nums[i];
+            nums[i] = nums[i + 1];
+            nums[i + 1] = temp;
+        }
+    }
+
+    public void wiggleSortV1(int[] nums) {
+        for (int i = 0; i < nums.length - 1; i++) {
+            if ((i % 2 == 0) == (nums[i] > nums[i + 1])) {
+                int temp = nums[i];
+                nums[i] = nums[i + 1];
+                nums[i + 1] = temp;
+            }
+        }
+    }
+
+    /**
+     * 1086. 前五科的均分
+     * 给你一个不同学生的分数列表 items，其中 items[i] = [IDi, scorei] 表示 IDi 的学生的一科分数，你需要计算每个学生 最高的五科 成绩的 平均分。
+     *
+     * 返回答案 result 以数对数组形式给出，其中 result[j] = [IDj, topFiveAveragej] 表示 IDj 的学生和他 最高的五科 成绩的 平均分。result 需要按 IDj  递增的 顺序排列 。
+     *
+     * 学生 最高的五科 成绩的 平均分 的计算方法是将最高的五科分数相加，然后用 整数除法 除以 5 。
+     * 示例 1：
+     *
+     * 输入：items = [[1,91],[1,92],[2,93],[2,97],[1,60],[2,77],[1,65],[1,87],[1,100],[2,100],[2,76]]
+     * 输出：[[1,87],[2,88]]
+     * 解释：
+     * ID = 1 的学生分数为 91、92、60、65、87 和 100 。前五科的平均分 (100 + 92 + 91 + 87 + 65) / 5 = 87
+     * ID = 2 的学生分数为 93、97、77、100 和 76 。前五科的平均分 (100 + 97 + 93 + 77 + 76) / 5 = 88.6，但是由于使用整数除法，结果转换为 88
+     * 示例 2：
+     *
+     * 输入：items = [[1,100],[7,100],[1,100],[7,100],[1,100],[7,100],[1,100],[7,100],[1,100],[7,100]]
+     * 输出：[[1,100],[7,100]]
+     *
+     *
+     * 提示：
+     *
+     * 1 <= items.length <= 1000
+     * items[i].length == 2
+     * 1 <= IDi <= 1000
+     * 0 <= scorei <= 100
+     * 对于每个 IDi，至少 存在五个分数
+     * 100
+     * 99 98 97
+     */
+    public int[][] highFiveV1(int[][] items) {
+        Arrays.sort(items, Comparator.comparingInt(o -> o[0]));
+        Set<Integer> stu = new HashSet<>();
+        for (int [] item : items) {
+            stu.add(item[0]);
+        }
+        int [][] ret = new int[stu.size()][];
+        int currStuId = items[0][0];
+        List<Integer> scores = new ArrayList<>();
+        int index = 0;
+        for (int[] item : items) {
+            if (currStuId == item[0]) {
+                scores.add(item[1]);
+            } else {
+                Integer[] arr = scores.toArray(new Integer[0]);
+                Arrays.sort(arr);
+                int total = 0;
+                for (int j = arr.length - 1; j >= arr.length - 5; j--) {
+                    total += arr[j];
+                }
+                ret[index] = new int[]{currStuId, total / 5};
+                currStuId = item[0];
+                index++;
+            }
+        }
+        return ret;
+    }
+
+    public int[][] highFive(int[][] items) {
+        Arrays.sort(items, (a, b) -> (a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));
+        int maxId = items[items.length-1][0];
+        int[][] result = new int[maxId][2];
+        int id;
+        int score;
+        for (int i = 0; i < items.length; i++) {
+            if (i == 0 || items[i][0] != items[i - 1][0]) {
+                id = items[i][0];
+                result[id - 1][0] = id;
+                for (int j = i; j < i + 5; j++) {
+                    score = items[j][1];
+                    result[id - 1][1] += score;
+                }
+                result[id - 1][1] /= 5;
+                i += 4;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 1342. 将数字变成 0 的操作次数
+     * 给你一个非负整数 num ，请你返回将它变成 0 所需要的步数。 如果当前数字是偶数，你需要把它除以 2 ；否则，减去 1 。
+     *
+     * 示例 1：
+     *
+     * 输入：num = 14
+     * 输出：6
+     * 解释：
+     * 步骤 1) 14 是偶数，除以 2 得到 7 。
+     * 步骤 2） 7 是奇数，减 1 得到 6 。
+     * 步骤 3） 6 是偶数，除以 2 得到 3 。
+     * 步骤 4） 3 是奇数，减 1 得到 2 。
+     * 步骤 5） 2 是偶数，除以 2 得到 1 。
+     * 步骤 6） 1 是奇数，减 1 得到 0 。
+     * 示例 2：
+     *
+     * 输入：num = 8
+     * 输出：4
+     * 解释：
+     * 步骤 1） 8 是偶数，除以 2 得到 4 。
+     * 步骤 2） 4 是偶数，除以 2 得到 2 。
+     * 步骤 3） 2 是偶数，除以 2 得到 1 。
+     * 步骤 4） 1 是奇数，减 1 得到 0 。
+     * 示例 3：
+     *
+     * 输入：num = 123
+     * 输出：12
+     *
+     *
+     * 提示：
+     *
+     * 0 <= num <= 10^6
+     */
+    public int numberOfSteps (int num) {
+        int count = 0;
+        while (num != 1) {
+            if (num % 2 == 0) {
+                num >>= 1;
+            } else {
+                num --;
+            }
+            count ++;
+        }
+        return count;
+    }
+
 }
