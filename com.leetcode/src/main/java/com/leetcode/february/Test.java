@@ -9,8 +9,8 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionThirteen solutionThirteen = new SolutionThirteen();
-        System.out.println(solutionThirteen.countSmaller(new int[] {5,2,6,1}));
+        SolutionFourteen solutionFourteen = new SolutionFourteen();
+        System.out.println(solutionFourteen.restoreString("codeleet", new int[] {4,5,6,7,0,2,1,3}));
     }
 
 }
