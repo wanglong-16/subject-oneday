@@ -1,5 +1,9 @@
 package com.leetcode.february;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -9,8 +13,16 @@ package com.leetcode.february;
 public class Test {
 
     public static void main(String[] args) {
-        SolutionFourteen solutionFourteen = new SolutionFourteen();
-        System.out.println(solutionFourteen.restoreString("codeleet", new int[] {4,5,6,7,0,2,1,3}));
+        SolutionFifteen solutionFifteen = new SolutionFifteen();
+        String[] skills = new String[]{"java", "nodejs", "reactjs"};
+
+        List<String> team1 = new ArrayList<String>() {{add("java"); add("nodejs");}};
+        List<String> team2 = new ArrayList<String>() {{add("nodejs"); add("reactjs");}};
+
+        List<List<String>> team = new ArrayList<>();
+        team.add(team1);
+        team.add(team2);
+        System.out.println(solutionFifteen.convertToTitle(701));
     }
 
 }
