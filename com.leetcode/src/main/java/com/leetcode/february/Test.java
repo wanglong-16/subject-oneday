@@ -22,7 +22,9 @@ public class Test {
         List<List<String>> team = new ArrayList<>();
         team.add(team1);
         team.add(team2);
-        System.out.println(solutionFifteen.convertToTitle(701));
+
+        SolutionSixteen solutionSixteen = new SolutionSixteen();
+
     }
 
 }
