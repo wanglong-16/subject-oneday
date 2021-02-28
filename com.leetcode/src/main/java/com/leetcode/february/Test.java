@@ -34,8 +34,8 @@ public class Test {
                 {'.','.','.','4','1','9','.','.','5'},
                 {'.','.','.','.','8','.','.','7','9'}
         };
-        SolutionSixteen solutionSixteen = new SolutionSixteen();
-        solutionSixteen.isValidSudoku(chars);
+        SolutionSeventeen solutionSeventeen = new SolutionSeventeen();
+        System.out.println(solutionSeventeen.numSteps("1101"));
 
     }
 

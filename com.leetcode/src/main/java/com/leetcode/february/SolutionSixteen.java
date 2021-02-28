@@ -478,6 +478,4 @@ public class SolutionSixteen {
         return true;
     }
 
-
-
 }
