@@ -1,4 +1,4 @@
-package com.leetcode.february;
+package com.leetcode.february.single;
 
 /**
  * @description:
@@ -8,13 +8,13 @@ package com.leetcode.february;
  */
 
 public class ListNode {
-    int val;
-    ListNode next;
+    public int val;
+    public ListNode next;
 
-    ListNode() {
+    public ListNode() {
     }
 
-    ListNode(int val) {
+    public ListNode(int val) {
         this.val = val;
     }
 

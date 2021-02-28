@@ -146,4 +146,114 @@ public class SolutionSixteen {
         }
         return ans;
     }
+
+    /**
+     * 896. 单调数列
+     * 如果数组是单调递增或单调递减的，那么它是单调的。
+     *
+     * 如果对于所有 i <= j，A[i] <= A[j]，那么数组 A 是单调递增的。 如果对于所有 i <= j，A[i]> = A[j]，那么数组 A 是单调递减的。
+     *
+     * 当给定的数组 A 是单调数组时返回 true，否则返回 false。
+     * 示例 1：
+     *
+     * 输入：[1,2,2,3]
+     * 输出：true
+     * 示例 2：
+     *
+     * 输入：[6,5,4,4]
+     * 输出：true
+     * 示例 3：
+     *
+     * 输入：[1,3,2]
+     * 输出：false
+     * 示例 4：
+     *
+     * 输入：[1,2,4,5]
+     * 输出：true
+     * 示例 5：
+     *
+     * 输入：[1,1,1]
+     * 输出：true
+     */
+
+    public boolean isMonotonic(int[] A) {
+        int aStart = A[0], aEnd = A[A.length - 1];
+        int incr = 0, decr = 0;
+        for (int i = 0; i < A.length; i++) {
+            if (A[i] <= aStart) {
+                decr ++;
+                aStart = A[i];
+            }
+            if (A[A.length - i - 1] <= aEnd) {
+                incr ++;
+                aEnd = A[A.length - i -1];
+            }
+        }
+        return incr == A.length || decr == A.length;
+    }
+
+    public boolean isMonotonicV1(int[] A) {
+        int a = A[0];
+        boolean incr = false, decr = false;
+        for (int value : A) {
+            if (value <= a) {
+                decr = true;
+            } else {
+                decr = false;
+                break;
+            }
+            a = value;
+        }
+
+        for (int value : A) {
+            if (value >= a) {
+                incr = true;
+            } else {
+                incr = false;
+                break;
+            }
+            a = value;
+        }
+        return incr || decr;
+    }
+
+    public boolean isMonotonicV2(int[] A) {
+        boolean inc = true, dec = true;
+        int n = A.length;
+        for (int i = 0; i < n - 1; ++i) {
+            if (A[i] > A[i + 1]) {
+                inc = false;
+            }
+            if (A[i] < A[i + 1]) {
+                dec = false;
+            }
+        }
+        return inc || dec;
+    }
+
+    /**
+     * 面试题 17.01. 不用加号的加法
+     * 设计一个函数把两个数字相加。不得使用 + 或者其他算术运算符。
+     *
+     * 示例:
+     *
+     * 输入: a = 1, b = 1
+     * 输出: 2
+     * 提示：
+     *
+     * a, b 均可能是负数或 0
+     * 结果不会溢出 32 位整数
+     * 通过次数8,394提交次数14,162
+     */
+    public int add(int a, int b) {
+        int curBit, nextBit;
+        while(b != 0) {
+            curBit = a ^ b; //当前位的值
+            nextBit = (a & b) << 1; // 同时为1进位
+            a = curBit;
+            b = nextBit;
+        }
+        return a;
+    }
+
 }
