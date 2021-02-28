@@ -1,7 +1,6 @@
 package com.leetcode.february;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description:
@@ -255,5 +254,230 @@ public class SolutionSixteen {
         }
         return a;
     }
+
+    /**
+     *
+     买卖股票的最佳时机
+     给定一个数组 prices ，它的第 i 个元素 prices[i] 表示一支给定股票第 i 天的价格。
+     你只能选择 某一天 买入这只股票，并选择在 未来的某一个不同的日子 卖出该股票。设计一个算法来计算你所能获取的最大利润。
+     返回你可以从这笔交易中获取的最大利润。如果你不能获取任何利润，返回 0 。
+     示例 1：
+     输入：[7,1,5,3,6,4]
+     输出：5
+     解释：在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。
+     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格；同时，你不能在买入前卖出股票。
+     示例 2：
+     输入：prices = [7,6,4,3,1]
+     输出：0
+     解释：在这种情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public int maxProfitV1(int[] prices) {
+        int maxPrice = 0;
+        for (int i = 0; i < prices.length; i++) {
+            for (int j = i + 1; j < prices.length; j++) {
+                int pf = prices[j] - prices[i];
+                if (pf > maxPrice) {
+                    maxPrice = pf;
+                }
+            }
+        }
+        return maxPrice;
+    }
+
+    public int maxProfit(int[] prices) {
+        int historyMin = Integer.MAX_VALUE, maxPrice = Integer.MIN_VALUE;
+        for (int i = 0; i < prices.length; i++) {
+            historyMin = Math.min(historyMin, prices[i]);
+            maxPrice = Math.max(prices[i] - historyMin, maxPrice);
+        }
+        return maxPrice;
+    }
+
+    /**
+     * 122. 买卖股票的最佳时机 II
+     * 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。
+     *
+     * 设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。
+     *
+     * 注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+     * 示例 1:
+     *
+     * 输入: [7,1,5,3,6,4]
+     * 输出: 7
+     * 解释: 在第 2 天（股票价格 = 1）的时候买入，在第 3 天（股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     *      随后，在第 4 天（股票价格 = 3）的时候买入，在第 5 天（股票价格 = 6）的时候卖出, 这笔交易所能获得利润 = 6-3 = 3 。
+     * 示例 2:
+     *
+     * 输入: [1,2,3,4,5]
+     * 输出: 4
+     * 解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。
+     *      注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。
+     *      因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+     * 示例 3:
+     *
+     * 输入: [7,6,4,3,1]
+     * 输出: 0
+     * 解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。
+     */
+    public int maxProfitI(int[] prices) {
+        int maxProfit = 0;
+        for (int i = 0; i < prices.length - 1; i++) {
+            if (prices[i + 1] - prices[i] > 0) {
+                maxProfit += prices[i + 1] - prices[i];
+            }
+        }
+        return maxProfit;
+    }
+
+    /**
+     * 36. 有效的数独
+     * 判断一个 9x9 的数独是否有效。只需要根据以下规则，验证已经填入的数字是否有效即可。
+     *
+     * 数字 1-9 在每一行只能出现一次。
+     * 数字 1-9 在每一列只能出现一次。
+     * 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+     * 上图是一个部分填充的有效的数独。
+     *
+     * 数独部分空格内已填入了数字，空白格用 '.' 表示。
+     *
+     * 示例 1:
+     *
+     * 输入:
+     * [
+     *   ["5","3",".",".","7",".",".",".","."],
+     *   ["6",".",".","1","9","5",".",".","."],
+     *   [".","9","8",".",".",".",".","6","."],
+     *   ["8",".",".",".","6",".",".",".","3"],
+     *   ["4",".",".","8",".","3",".",".","1"],
+     *   ["7",".",".",".","2",".",".",".","6"],
+     *   [".","6",".",".",".",".","2","8","."],
+     *   [".",".",".","4","1","9",".",".","5"],
+     *   [".",".",".",".","8",".",".","7","9"]
+     * ]
+     * 输出: true
+     * 示例 2:
+     *
+     * 输入:
+     * [
+     *   ["8","3",".",".","7",".",".",".","."],
+     *   ["6",".",".","1","9","5",".",".","."],
+     *   [".","9","8",".",".",".",".","6","."],
+     *   ["8",".",".",".","6",".",".",".","3"],
+     *   ["4",".",".","8",".","3",".",".","1"],
+     *   ["7",".",".",".","2",".",".",".","6"],
+     *   [".","6",".",".",".",".","2","8","."],
+     *   [".",".",".","4","1","9",".",".","5"],
+     *   [".",".",".",".","8",".",".","7","9"]
+     * ]
+     * 输出: false
+     * 解释: 除了第一行的第一个数字从 5 改为 8 以外，空格内其他数字均与 示例1 相同。
+     *      但由于位于左上角的 3x3 宫内有两个 8 存在, 因此这个数独是无效的。
+     * 说明:
+     *
+     * 一个有效的数独（部分已被填充）不一定是可解的。
+     * 只需要根据以上规则，验证已经填入的数字是否有效即可。
+     * 给定数独序列只包含数字 1-9 和字符 '.' 。
+     * 给定数独永远是 9x9 形式的。
+     *
+     * [["8","3",".",".","7",".",".",".","."],
+     * ["6",".",".","1","9","5",".",".","."],
+     * [".","9","8",".",".",".",".","6","."],
+     * ["8",".",".",".","6",".",".",".","3"],
+     * ["4",".",".","8",".","3",".",".","1"],
+     * ["7",".",".",".","2",".",".",".","6"],
+     * [".","6",".",".",".",".","2","8","."],
+     * [".",".",".","4","1","9",".",".","5"],
+     * [".",".",".",".","8",".",".","7","9"]]
+     */
+    public boolean isValidSudoku(char[][] board) {
+        //ascii 1 ~ 9 = 49 ~ 57
+        boolean result = true;
+        // 检查纵横
+        for (int i = 0; i < 9; i++) {
+            char [] rowChars = new char[9];
+            char [] colChars = new char[9];
+            for (int j = 0; j < 9; j++) {
+                rowChars[j] = board[i][j];
+                colChars[j] = board[j][i];
+            }
+            boolean isRowMatch = isUniqNums(rowChars);
+            boolean isColumnMatch = isUniqNums(colChars);
+            result = result && isRowMatch && isColumnMatch;
+        }
+        //检查9个中心点的 3 * 3
+        for (int i = 1; i < 8; i+=3) {
+            for (int j = 1; j < 8; j+=3) {
+                result = result && checkCenter(board, i, j);
+            }
+        }
+        return result;
+    }
+
+    private boolean isUniqNums(char[] chars) {
+        Set<Character> uniqs = new HashSet<>();
+        for (int i = 0; i < chars.length; i++) {
+            if (chars[i] >= 49 && chars[i] <= 57) {
+                if (uniqs.contains(chars[i])) {
+                    return false;
+                } else {
+                    uniqs.add(chars[i]);
+                }
+            }
+        }
+        return true;
+    }
+
+    private boolean checkCenter(char[][] board, int centerX, int centerY) {
+        Set<Character> uniqs = new HashSet<>();
+        for (int i = centerX - 1; i <= centerX + 1; i++) {
+            for (int j = centerY - 1; j <= centerY + 1; j++) {
+                if (board[i][j] >= 49 && board[i][j] <= 57) {
+                    if (uniqs.contains(board[i][j])) {
+                        return false;
+                    } else {
+                        uniqs.add(board[i][j]);
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
+    public boolean isValidSudokuVGuanFang(char[][] board) {
+        // init data
+        HashMap<Integer, Integer> [] rows = new HashMap[9];
+        HashMap<Integer, Integer> [] columns = new HashMap[9];
+        HashMap<Integer, Integer> [] boxes = new HashMap[9];
+        for (int i = 0; i < 9; i++) {
+            rows[i] = new HashMap<Integer, Integer>();
+            columns[i] = new HashMap<Integer, Integer>();
+            boxes[i] = new HashMap<Integer, Integer>();
+        }
+
+        // validate a board
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char num = board[i][j];
+                if (num != '.') {
+                    int n = (int)num;
+                    int box_index = (i / 3 ) * 3 + j / 3;
+
+                    // keep the current cell value
+                    rows[i].put(n, rows[i].getOrDefault(n, 0) + 1);
+                    columns[j].put(n, columns[j].getOrDefault(n, 0) + 1);
+                    boxes[box_index].put(n, boxes[box_index].getOrDefault(n, 0) + 1);
+
+                    // check if this value has been already seen before
+                    if (rows[i].get(n) > 1 || columns[j].get(n) > 1 || boxes[box_index].get(n) > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+
 
 }
