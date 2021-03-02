@@ -177,4 +177,83 @@ public class Day1 {
         }
         return sb.reverse().substring(1, sb.length());
     }
+
+    /**
+     * 1063. 有效子数组的数目
+     * 给定一个整数数组 A，返回满足下面条件的 非空、连续 子数组的数目：
+     * 子数组中，最左侧的元素不大于其他元素。
+     * 示例 1：
+     * 输入：[1,4,2,5,3]
+     * 输出：11
+     * 解释：有 11 个有效子数组，分别是：[1],[4],[2],[5],[3],[1,4],[2,5],[1,4,2],[2,5,3],[1,4,2,5],[1,4,2,5,3] 。
+     * 示例 2：
+     * 输入：[3,2,1]
+     * 输出：3
+     * 解释：有 3 个有效子数组，分别是：[3],[2],[1] 。
+     * 示例 3：
+     * 输入：[2,2,2]
+     * 输出：6
+     * 解释：有 6 个有效子数组，分别为是：[2],[2],[2],[2,2],[2,2],[2,2,2] 。
+     */
+    public int validSubarrays(int[] nums) {
+        int result = 0;
+        for (int i = 0; i < nums.length; i++) {
+            int count = 0;
+            for (int j = i + 1; j < nums.length; j++) {
+                if (nums[j] >= nums[i]) {
+                    count ++;
+                } else {
+                    break;
+                }
+            }
+            result += count;
+        }
+        return result;
+    }
+
+    /**
+     * 42. 接雨水
+     * 给定 n 个非负整数表示每个宽度为 1 的柱子的高度图，计算按此排列的柱子，下雨之后能接多少雨水。
+     * 示例 1：
+     * 输入：height = [0,1,0,2,1,0,1,3,2,1,2,1]
+     * 输出：6
+     * 解释：上面是由数组 [0,1,0,2,1,0,1,3,2,1,2,1] 表示的高度图，在这种情况下，可以接 6 个单位的雨水（蓝色部分表示雨水）。
+     * 示例 2：
+     *
+     * 输入：height = [4,2,0,3,2,5]
+     * 输出：9
+     * 提示：
+     *
+     * n == height.length
+     * 0 <= n <= 3 * 104
+     * 0 <= height[i] <= 105
+     * todo check
+     */
+    public int trap(int[] height) {
+        //单调递减栈
+        int ans = 0;
+        Stack<Integer> decrStack = new Stack<>();
+        int left = height[0], start = 0;
+        for (int i = 1; i < height.length; i++) {
+            if (height[i] < height[i - 1]) {
+                left = height[i - 1];
+                start = i - 1;
+                break;
+            }
+        }
+        decrStack.push(height[start]);
+        for (int i = start + 1; i < height.length; i++) {
+            if (height[i] < decrStack.peek()) {
+                decrStack.push(height[i]);
+            } else {
+                int floorLine = Math.min(left, height[i]);
+                while (!decrStack.empty()) {
+                    ans += floorLine - decrStack.pop();
+                }
+                left = height[i];
+                decrStack.push(left);
+            }
+        }
+        return ans;
+    }
 }
