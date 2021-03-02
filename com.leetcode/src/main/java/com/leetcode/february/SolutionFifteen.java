@@ -1,6 +1,6 @@
 package com.leetcode.february;
 
-import com.leetcode.util.ListNode;
+import com.leetcode.util.linked.ListNode;
 
 import java.util.*;
 
