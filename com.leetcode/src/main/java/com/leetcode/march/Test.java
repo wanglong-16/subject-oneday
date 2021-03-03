@@ -10,6 +10,7 @@ public class Test {
 
     public static void main(String[] args) {
         Day1 day1 = new Day1();
-        System.out.println(day1.trap(new int[] {0,1,0,2,1,0,1,3,2,1,2,1}));
+        Day2 day2 = new Day2();
+        System.out.println(day2.reverseParentheses("ta()usw((((a))))"));
     }
 }

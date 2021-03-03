@@ -11,13 +11,13 @@ public abstract class Node {
     public abstract int evaluate();
     // define your fields here
 
-    public static class BTreeNode extends Node {
+    public static class BTNode extends Node {
 
         String value;
-        public BTreeNode left;
-        public BTreeNode right;
+        public BTNode left;
+        public BTNode right;
 
-        public BTreeNode(String val) {
+        public BTNode(String val) {
             this.value = val;
         }
 
