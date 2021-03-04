@@ -15,6 +15,6 @@ public class Test {
         int [][] arr = new int[][] {
                 {46,89},{50,53},{52,68},{72,45},{77,81}
         };
-        System.out.println(day3.generateParenthesis(3));
+        System.out.println(day3.reverseBits(1775));
     }
 }
