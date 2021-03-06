@@ -27,12 +27,11 @@ public class Day1 {
      */
     public ListNode reverseList(ListNode head) {
         ListNode prev = null;
-        ListNode curr = head;
-        while (curr != null) {
-            ListNode nextTemp = curr.next;
-            curr.next = prev;
-            prev = curr;
-            curr = nextTemp;
+        while (head != null) {
+            ListNode nextTemp = head.next; // nextT = 2 3 4 5 => 3 4 5
+            head.next = prev; //head = 1 => 2 1
+            prev = head; // prev = 1 => 2 1
+            head = nextTemp; // head = 2 3 4 5 => 3 4 5
         }
         return prev;
     }
