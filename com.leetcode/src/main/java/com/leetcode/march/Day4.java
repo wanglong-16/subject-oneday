@@ -1,7 +1,8 @@
-package com.leetcode.march.single;
+package com.leetcode.march;
 
 import com.leetcode.util.linked.ListNode;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
@@ -67,6 +68,33 @@ public class Day4 {
         node.val = node.next.val; // 当前节点的值置为下一个节点的值
         // [4, 5, 9, 9] => [4, 5, 9]
         node.next = node.next.next;
+    }
+
+    /**
+     * 剑指 Offer 18. 删除链表的节点
+     * 给定单向链表的头指针和一个要删除的节点的值，定义一个函数删除该节点。
+     * 返回删除后的链表的头节点。
+     * 注意：此题对比原题有改动
+     * 示例 1:
+     * 输入: head = [4,5,1,9], val = 5
+     * 输出: [4,1,9]
+     * 解释: 给定你链表中值为 5 的第二个节点，那么在调用了你的函数之后，该链表应变为 4 -> 1 -> 9.
+     * 示例 2:
+     * 输入: head = [4,5,1,9], val = 1
+     * 输出: [4,5,9]
+     * 解释: 给定你链表中值为 1 的第三个节点，那么在调用了你的函数之后，该链表应变为 4 -> 5 -> 9.
+     */
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode ans = new ListNode(0);
+        ans.next = head;
+        ListNode temp = ans;
+        while (temp.next != null) {
+            if (temp.next.val == val) {
+                temp.next = temp.next.next;
+            }
+            temp = temp.next;
+        }
+        return ans.next;
     }
 
     /**
@@ -210,5 +238,51 @@ public class Day4 {
             ans.next = cur;
         }
         return ans.next;
+    }
+
+    /**
+     * 剑指 Offer 22. 链表中倒数第k个节点
+     * 输入一个链表，输出该链表中倒数第k个节点。为了符合大多数人的习惯，本题从1开始计数，即链表的尾节点是倒数第1个节点。
+     * 例如，一个链表有 6 个节点，从头节点开始，它们的值依次是 1、2、3、4、5、6。这个链表的倒数第 3 个节点是值为 4 的节点。
+     * 示例：
+     * 给定一个链表: 1->2->3->4->5, 和 k = 2.
+     * 返回链表 4->5.
+     */
+    public ListNode getKthFromEndV1(ListNode head, int k) {
+        // 用栈计数
+        Stack<ListNode> stack = new Stack<>();
+        while (head != null) {
+            stack.push(head);
+            head = head.next;
+        }
+        int count = 0;
+        while (count != k) {
+            stack.pop();
+            count ++;
+        }
+        return stack.pop();
+    }
+
+    public ListNode getKthFromEndV2(ListNode head, int k) {
+        List<ListNode> listNodes = new ArrayList<>();
+        while (head != null) {
+            listNodes.add(head);
+            head = head.next;
+        }
+        return listNodes.get(listNodes.size() - k);
+    }
+
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode fast = head, slow = head;
+        int fastCount = 1;
+        while (fastCount < k) {
+            fast = fast.next;
+            fastCount ++;
+        }
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        return slow;
     }
 }
