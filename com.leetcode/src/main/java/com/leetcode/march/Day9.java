@@ -142,4 +142,151 @@ public class Day9 {
         }
     }
 
+    /**
+     * 1710. 卡车上的最大单元数
+     * 请你将一些箱子装在 一辆卡车 上。给你一个二维数组 boxTypes ，其中 boxTypes[i] = [numberOfBoxesi, numberOfUnitsPerBoxi] ：
+     *
+     * numberOfBoxesi 是类型 i 的箱子的数量。
+     * numberOfUnitsPerBoxi 是类型 i 每个箱子可以装载的单元数量。
+     * 整数 truckSize 表示卡车上可以装载 箱子 的 最大数量 。只要箱子数量不超过 truckSize ，你就可以选择任意箱子装到卡车上。
+     *
+     * 返回卡车可以装载 单元 的 最大 总数。
+     * 示例 1：
+     *
+     * 输入：boxTypes = [[1,3],[2,2],[3,1]], truckSize = 4
+     * 输出：8
+     * 解释：箱子的情况如下：
+     * - 1 个第一类的箱子，里面含 3 个单元。
+     * - 2 个第二类的箱子，每个里面含 2 个单元。
+     * - 3 个第三类的箱子，每个里面含 1 个单元。
+     * 可以选择第一类和第二类的所有箱子，以及第三类的一个箱子。
+     * 单元总数 = (1 * 3) + (2 * 2) + (1 * 1) = 8
+     * 示例 2：
+     *
+     * 输入：boxTypes = [[5,10],[2,5],[4,7],[3,9]], truckSize = 10
+     * 输出：91
+     */
+    public int maximumUnitsV1(int[][] boxTypes, int truckSize) {
+        Arrays.sort(boxTypes, (o1, o2) -> o2[1] - o1[1]);
+        int maxUnits = 0, currentSize = 0;
+        for (int i = 0; i < boxTypes.length; i++) {
+            if (currentSize + boxTypes[i][0] >= truckSize) {
+                // 装不下全部
+                for (int j = 0; j < boxTypes[i][0]; j++) {
+                    currentSize ++;
+                    maxUnits += boxTypes[i][1];
+                    if (currentSize == truckSize) {
+                        return maxUnits;
+                    }
+                }
+            } else {
+                currentSize += boxTypes[i][0];
+                maxUnits += boxTypes[i][0] * boxTypes[i][1];
+            }
+        }
+        return maxUnits;
+    }
+
+    public int maximumUnits(int[][] boxTypes, int truckSize) {
+        Arrays.sort(boxTypes, (o1, o2) -> (o2[1] - o1[1]));
+        int ans = 0;
+        for (int i = 0; i < boxTypes.length && truckSize > 0; i++) {
+            int num = Math.min(truckSize, boxTypes[i][0]);
+            truckSize -= num;
+            ans += num * boxTypes[i][1];
+        }
+        return ans;
+    }
+
+    /**
+     * 1772. 按受欢迎程度排列功能
+     * 给定一个字符串数组 features ，其中 features[i] 是一个单词，描述你最近参与开发的项目中一个功能的名称。你调查了用户喜欢哪些功能。另给定一个字符串数组 responses，其中 responses[i] 是一个包含以空格分隔的一系列单词的字符串。
+     *
+     * 你想要按照受欢迎程度排列这些功能。 严格地说，令 appearances(word) 是满足 responses[i] 中包含单词 word 的 i 的个数，则当 appearances(features[x]) > appearances(features[y]) 时，第 x 个功能比第 y 个功能更受欢迎。
+     *
+     * 返回一个数组 sortedFeatures ，包含按受欢迎程度排列的功能名称。当第 x  个功能和第 y 个功能的受欢迎程度相同且 x < y 时，你应当将第 x 个功能放在第 y 个功能之前。
+     * 示例 1：
+     *
+     * 输入：features = ["cooler","lock","touch"], responses = ["i like cooler cooler","lock touch cool","locker like touch"]
+     * 输出：["touch","cooler","lock"]
+     * 解释：appearances("cooler") = 1，appearances("lock") = 1，appearances("touch") = 2。由于 "cooler" 和 "lock" 都出现了 1 次，且 "cooler" 在原数组的前面，所以 "cooler" 也应该在结果数组的前面。
+     * 示例 2：
+     *
+     * 输入：features = ["a","aa","b","c"], responses = ["a","a aa","a a a a a","b a"]
+     * 输出：["a","aa","b","c"]
+     *
+     *
+     * 提示：
+     *
+     * 1 <= features.length <= 104
+     * 1 <= features[i].length <= 10
+     * features 不包含重复项。
+     * features[i] 由小写字母构成。
+     * 1 <= responses.length <= 102
+     * 1 <= responses[i].length <= 103
+     * responses[i] 由小写字母和空格组成。
+     * responses[i] 不包含两个连续的空格。
+     * responses[i] 没有前置或后置空格。
+     */
+    public String[] sortFeatures(String[] features, String[] responses) {
+        Map<String, Integer> featureBucket = new HashMap<>();
+        for (String str : features) {
+            featureBucket.put(str, 0);
+        }
+        for (String resp : responses) {
+            String [] splitResp = resp.split(" ");
+            for (String sp : splitResp) {
+                if (featureBucket.get(sp) != null) {
+                    featureBucket.put(sp, featureBucket.get(sp) + 1);
+                }
+            }
+        }
+        List<Feature> buckets = new ArrayList<>();
+        for (Map.Entry e : featureBucket.entrySet()) {
+            buckets.add(new Feature(e.getKey().toString(), Integer.parseInt(e.getValue().toString())));
+        }
+        Collections.sort(buckets);
+        String [] ans = new String[buckets.size()];
+        for (int i = 0; i < buckets.size(); i++) {
+            ans[i] = buckets.get(i).getF();
+        }
+        return ans;
+    }
+
+    public class Feature implements Comparable <Feature>{
+        public String f;
+        public int c;
+
+        public String getF() {
+            return f;
+        }
+
+        public Feature(String f, int c) {
+            this.f = f;
+            this.c = c;
+        }
+
+        @Override
+        public int compareTo(Feature o) {
+            return o.c - this.c;
+        }
+    }
+
+    public String[] sortFeaturesV1(String[] features, String[] responses) {
+        Map<String, Set<Integer>> map = new HashMap<>();
+        for(String feature : features) {
+            map.put(feature, new HashSet<>());
+        }
+        for(int i = 0; i < responses.length; i++) {
+            String r = responses[i];
+            String[] words = r.split(" ");
+            for(String w : words) {
+                if(map.containsKey(w)) {
+                    map.get(w).add(i);
+                }
+            }
+        }
+        Arrays.sort(features, (o1, o2) -> map.get(o2).size() - map.get(o1).size());
+        return features;
+    }
 }
