@@ -1,5 +1,9 @@
 package com.leetcode.march;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -19,5 +23,12 @@ public class Test {
         String[] st1 = new String[] {"cooler","lock","touch"};
         String[] st2 = new String[] {"i like cooler cooler","lock touch cool","locker like touch"};
         System.out.println(day9.sortFeatures(st1, st2));
+
+        List<Integer> arr1 = new ArrayList<Integer>();
+        arr1.add(1);
+        arr1.add(2);
+        arr1.add(3);
+        arr1.remove(1);
+        System.out.println(arr1);
     }
 }
