@@ -1,9 +1,6 @@
 package com.leetcode.march;
 
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @description:
@@ -160,5 +157,197 @@ public class Day11 {
     }
 
 
+    /**
+     * 1122. 数组的相对排序
+     * 给你两个数组，arr1 和 arr2，
+     *
+     * arr2 中的元素各不相同
+     * arr2 中的每个元素都出现在 arr1 中
+     * 对 arr1 中的元素进行排序，使 arr1 中项的相对顺序和 arr2 中的相对顺序相同。未在 arr2 中出现过的元素需要按照升序放在 arr1 的末尾。
+     * 示例：
+     *
+     * 输入：arr1 = [2,3,1,3,2,4,6,7,9,2,19], arr2 = [2,1,4,3,9,6]
+     * 输出：[2,2,2,1,4,3,3,9,6,7,19]
+     * 提示：
+     *
+     * 1 <= arr1.length, arr2.length <= 1000
+     * 0 <= arr1[i], arr2[i] <= 1000
+     * arr2 中的元素 arr2[i] 各不相同
+     * arr2 中的每个元素 arr2[i] 都出现在 arr1 中
+     */
+    public int[] relativeSortArray(int[] arr1, int[] arr2) {
+        Map<Integer, Integer> existBucket = new HashMap<>();
+        Map<Integer, Integer> notExistBucket = new HashMap<>();
+        for (Integer in : arr2) {
+            existBucket.put(in, 0);
+        }
+        for (Integer in : arr1) {
+            if (existBucket.get(in) != null) {
+                existBucket.put(in, existBucket.get(in) + 1);
+            } else {
+                notExistBucket.merge(in, 1, Integer::sum);
+            }
+        }
+        int [][] notExist = new int[notExistBucket.size()][2];
+        if (notExistBucket.size() != 0) {
+            int cnt = 0;
+            for (Map.Entry e : notExistBucket.entrySet()) {
+                notExist[cnt] = new int[] {Integer.parseInt(e.getKey().toString()), Integer.parseInt(e.getValue().toString())};
+                cnt ++;
+            }
+            Arrays.sort(notExist, Comparator.comparingInt(a -> a[0]));
+        }
+        int [] ans = new int[arr1.length];
+        int count = 0;
+        for (int i = 0; i < arr2.length; i++) {
+            int val = arr2[i], times = existBucket.get(val);
+            for (int j = 1; j <= times; j++) {
+                ans[count] = val;
+                count ++;
+            }
+        }
+        for (int i = 0; i < notExist.length; i++) {
+            int val = notExist[i][0], times = notExist[i][1];
+            for (int j = 1; j <= times; j++) {
+                ans[count] = val;
+                count ++;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 1640. 能否连接形成数组
+     * 给你一个整数数组 arr ，数组中的每个整数 互不相同 。另有一个由整数数组构成的数组 pieces，其中的整数也 互不相同 。请你以 任意顺序 连接 pieces 中的数组以形成 arr 。但是，不允许 对每个数组 pieces[i] 中的整数重新排序。
+     *
+     * 如果可以连接 pieces 中的数组形成 arr ，返回 true ；否则，返回 false 。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：arr = [85], pieces = [[85]]
+     * 输出：true
+     * 示例 2：
+     *
+     * 输入：arr = [15,88], pieces = [[88],[15]]
+     * 输出：true
+     * 解释：依次连接 [15] 和 [88]
+     * 示例 3：
+     *
+     * 输入：arr = [49,18,16], pieces = [[16,18,49]]
+     * 输出：false
+     * 解释：即便数字相符，也不能重新排列 pieces[0]
+     * 示例 4：
+     *
+     * 输入：arr = [91,4,64,78], pieces = [[78],[4,64],[91]]
+     * 输出：true
+     * 解释：依次连接 [91]、[4,64] 和 [78]
+     * 示例 5：
+     *
+     * 输入：arr = [1,3,5,7], pieces = [[2,4,6,8]]
+     * 输出：false
+     *
+     *
+     * 提示：
+     *
+     * 1 <= pieces.length <= arr.length <= 100
+     * sum(pieces[i].length) == arr.length
+     * 1 <= pieces[i].length <= arr.length
+     * 1 <= arr[i], pieces[i][j] <= 100
+     * arr 中的整数 互不相同
+     * pieces 中的整数 互不相同（也就是说，如果将 pieces 扁平化成一维数组，数组中的所有整数互不相同）
+     */
+    public boolean canFormArray(int[] arr, int[][] pieces) {
+        Map<Integer, int[]> map = new HashMap<>();
+        for (int [] ar : pieces) {
+            map.put(ar[0], ar);
+        }
+        int ptr = 0;
+        while (ptr < arr.length) {
+            int head = arr[ptr];
+            if (map.get(head) == null) {
+                return false;
+            } else {
+                int [] curArr = map.get(head);
+                for (int value : curArr) {
+                    if (value != arr[ptr]) {
+                        return false;
+                    } else {
+                        ptr++;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 1387. 将整数按权重排序
+     * 我们将整数 x 的 权重 定义为按照下述规则将 x 变成 1 所需要的步数：
+     *
+     * 如果 x 是偶数，那么 x = x / 2
+     * 如果 x 是奇数，那么 x = 3 * x + 1
+     * 比方说，x=3 的权重为 7 。因为 3 需要 7 步变成 1 （3 --> 10 --> 5 --> 16 --> 8 --> 4 --> 2 --> 1）。
+     *
+     * 给你三个整数 lo， hi 和 k 。你的任务是将区间 [lo, hi] 之间的整数按照它们的权重 升序排序 ，如果大于等于 2 个整数有 相同 的权重，那么按照数字自身的数值 升序排序 。
+     *
+     * 请你返回区间 [lo, hi] 之间的整数按权重排序后的第 k 个数。
+     *
+     * 注意，题目保证对于任意整数 x （lo <= x <= hi） ，它变成 1 所需要的步数是一个 32 位有符号整数。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：lo = 12, hi = 15, k = 2
+     * 输出：13
+     * 解释：12 的权重为 9（12 --> 6 --> 3 --> 10 --> 5 --> 16 --> 8 --> 4 --> 2 --> 1）
+     * 13 的权重为 9
+     * 14 的权重为 17
+     * 15 的权重为 17
+     * 区间内的数按权重排序以后的结果为 [12,13,14,15] 。对于 k = 2 ，答案是第二个整数也就是 13 。
+     * 注意，12 和 13 有相同的权重，所以我们按照它们本身升序排序。14 和 15 同理。
+     * 示例 2：
+     *
+     * 输入：lo = 1, hi = 1, k = 1
+     * 输出：1
+     * 示例 3：
+     *
+     * 输入：lo = 7, hi = 11, k = 4
+     * 输出：7
+     * 解释：区间内整数 [7, 8, 9, 10, 11] 对应的权重为 [16, 3, 19, 6, 14] 。
+     * 按权重排序后得到的结果为 [8, 10, 11, 7, 9] 。
+     * 排序后数组中第 4 个数字为 7 。
+     * 示例 4：
+     *
+     * 输入：lo = 10, hi = 20, k = 5
+     * 输出：13
+     * 示例 5：
+     *
+     * 输入：lo = 1, hi = 1000, k = 777
+     * 输出：570
+     */
+    public int getKth(int lo, int hi, int k) {
+        int [][] ints = new int[hi - lo + 1][2];
+        for (int i = lo; i <= hi; i++) {
+            ints[i - lo] = new int[] {i, calculateWeight(i)};
+        }
+        Arrays.sort(ints, (o1, o2) -> o1[1] == o2[1] ? o1[0] - o2[0] : o1[1] - o2[1]);
+        return ints[k][0];
+    }
+
+    public int calculateWeight(int n) {
+        int result = 0;
+        while (n != 1) {
+            if ((n & 1) == 0) {
+                n >>= 1;
+            } else {
+                n = n * 3 + 1;
+            }
+            result ++;
+        }
+        return result;
+    }
 
 }
