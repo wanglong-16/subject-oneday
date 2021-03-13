@@ -1,9 +1,6 @@
 package com.leetcode.march;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 /**
  * @description:
@@ -235,51 +232,33 @@ public class Day10 {
      *  3 3 1 1
      *  2 2 1 2
      *  1 1 1 2
-     *   todo
      */
     public int[][] diagonalSort(int[][] mat) {
-        int r = mat.length, c = mat[0].length; // r = 3, c = 4
-        // 对角线排序
-        for (int i = 0; i < Math.min(r, c) ; i++) {
-            for (int j = 0; j < Math.min(r, c) - 1; j++) {
-                if (mat[j][j] > mat[j + 1][j + 1]) {
-                    //swap
-                    mat[j][j] = mat[j][j] + mat[j + 1][j + 1];
-                    mat[j + 1][j + 1] = mat[j][j] - mat[j + 1][j + 1];
-                    mat[j][j] = mat[j][j] - mat[j + 1][j + 1];
-                }
+        // 00 11 22 、01 12 23、02 13、 03
+        // 10 21
+        // 20
+        int rows = mat.length, cols = mat[0].length; // r = 3, c = 4
+        for (int i = 0; i < cols; i++) {
+            List<Integer> list = new ArrayList<>();
+            int r = 0, c = i;
+            for (; r < rows && c < cols; r++, c++) {
+                list.add(mat[r][c]);
+            }
+            Collections.sort(list);
+            for (; r >= 0 ; r --, c--) {
+                mat[r][c] = list.get(r);
             }
         }
-        //列开始冒泡排序
-        if (c >= 3) {
-            // i = 1, 2
-            for (int i = 1; i < c - 1; i++) {//标示第几列
-                for (int j = i; j < c - i; j++) { //从第几个 j 1 2 3
-                    for (int k = i; k < c - i - 1; k++) {// 1, 2
-                        if (mat[k - 1][i + k] > mat[k + 1][i + k + 1]) {
-                            // 1, 2
-                            //swap
-                            mat[k][i + k] = mat[k][i + k] + mat[k + 1][i + k + 1];
-                            mat[k + 1][i + k + 1] = mat[k][i + k] - mat[k + 1][i + k + 1];
-                            mat[k][i + k] = mat[k][i + k] - mat[k + 1][i + k + 1];
-                        }
-                    }
-                }
+
+        for (int i = 1; i < rows; i++) {
+            List<Integer> list = new ArrayList<>();
+            int r = i, c = 0;
+            for (; r < rows && c < cols; r++, c++) {
+                list.add(mat[r][c]);
             }
-        }
-        //列冒泡排序
-        if (r >= 3) {
-            for (int i = 1; i < r - 2; i++) {
-                for (int j = 0; j <= r - i; j++) {
-                    for (int k = 0; k <= r - i - 1; k++) {
-                        if (mat[i + k][k] > mat[i + k + 1][k + 1]) {
-                            //swap
-                            mat[i + k][k] = mat[i + k][k] + mat[i + k + 1][k + 1];
-                            mat[i + k + 1][k + 1] = mat[k][k] - mat[i + k + 1][k + 1];
-                            mat[i + k][k] = mat[i + k][k] - mat[i + k + 1][k + 1];
-                        }
-                    }
-                }
+            Collections.sort(list);
+            for (; c >= 0 ; r --, c--) {
+                mat[r][c] = list.get(c);
             }
         }
         return mat;

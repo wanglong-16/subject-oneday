@@ -1,8 +1,6 @@
 package com.leetcode.march;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 /**
  * @description:
@@ -23,5 +21,13 @@ public class Test {
         int [] a1 = new int[] {2,3,1,3,2,4,6,7,9,2,19};
         int [] a2 = new int[] {2,1,4,3,9,6};
         System.out.println(day11.calculateWeight(13));
+    }
+
+    private static void testSortMap() {
+        Map<Integer, Integer> map = new HashMap<Integer, Integer>() {{
+            put(1, 2);
+            put(2, 3);
+        }};
+
     }
 }
