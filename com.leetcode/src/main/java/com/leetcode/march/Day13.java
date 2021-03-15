@@ -1,5 +1,10 @@
 package com.leetcode.march;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -85,4 +90,81 @@ public class Day13 {
         }
         return false;
     }
+
+    /**
+     * 1288. 删除被覆盖区间
+     * 给你一个区间列表，请你删除列表中被其他区间所覆盖的区间。
+     *
+     * 只有当 c <= a 且 b <= d 时，我们才认为区间 [a,b) 被区间 [c,d) 覆盖。
+     *
+     * 在完成所有删除操作后，请你返回列表中剩余区间的数目。
+     * 示例：
+     *
+     * 输入：intervals = [[1,4],[3,6],[2,8]]
+     * 输出：2
+     * 解释：区间 [3,6] 被区间 [2,8] 覆盖，所以它被删除了。
+     *
+     *
+     * 提示：​​​​​​
+     *
+     * 1 <= intervals.length <= 1000
+     * 0 <= intervals[i][0] < intervals[i][1] <= 10^5
+     * 对于所有的 i != j：intervals[i] != intervals[j]
+     */
+    public int removeCoveredIntervals(int[][] intervals) {
+        Arrays.sort(intervals, (a, b) -> (a[0] == b[0] ? b[1] - a[1] : a[0] - b[0]));
+        int ans = 0, curr, prev = 0;
+        for (int[] interval : intervals) {
+            curr = interval[1];
+            if (prev < curr) {
+                ans++;
+                prev = curr;
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 54. 螺旋矩阵
+     * 给你一个 m 行 n 列的矩阵 matrix ，请按照 顺时针螺旋顺序 ，返回矩阵中的所有元素。
+     * 示例 1：
+     * 输入：matrix = [[1,2,3],[4,5,6],[7,8,9]]
+     * 输出：[1,2,3,6,9,8,7,4,5]
+     * 示例 2：
+     * 输入：matrix = [[1,2,3,4],[5,6,7,8],[9,10,11,12]]
+     * 输出：[1,2,3,4,8,12,11,10,9,5,6,7]
+     */
+    public List<Integer> spiralOrder(int[][] matrix) {
+        List<Integer> ans = new ArrayList<>(matrix.length * matrix[0].length);
+        int startR = 0, startC = 0, stopR = matrix.length - 1, stopC = matrix[0].length - 1;
+        while (startR != stopR && startC != stopC) {
+            // 行
+            for (int i = startC; i <= stopC; i++) {
+                ans.add(matrix[startR][i]);
+            }
+            for (int i = startR + 1; i <= stopR; i++) {
+                ans.add(matrix[i][stopC]);
+            }
+            for (int i = stopC - 1; i >= startC; i--) {
+                ans.add(matrix[stopR][i]);
+            }
+            for (int i = stopR - 1; i >= startR + 1; i--) {
+                ans.add(matrix[i][startC]);
+            }
+            startR ++; startC ++; stopR --; stopC --;
+        }
+        if (startC == stopC && startR <= stopR) {
+            for (int i = startR; i <= stopR; i++) {
+                ans.add(matrix[i][startC]);
+            }
+        }
+        if (startC <= stopC && startR == stopR){
+            for (int i = startC; i <= stopC; i++) {
+                ans.add(matrix[startR][i]);
+            }
+        }
+        return ans;
+    }
+
+
 }
