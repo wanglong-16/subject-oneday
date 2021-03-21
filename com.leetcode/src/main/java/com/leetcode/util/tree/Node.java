@@ -1,41 +1,31 @@
 package com.leetcode.util.tree;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
  * @date: 2021-03-02 09:22:55
  * @author: wanglong16@meicai.cn
  */
-public abstract class Node {
+public class Node {
 
-    public abstract int evaluate();
-    // define your fields here
+    public int val;
+    public List<Node> children;
 
-    public static class BTNode extends Node {
 
-        String value;
-        public BTNode left;
-        public BTNode right;
+    public Node() {
+        children = new ArrayList<Node>();
+    }
 
-        public BTNode(String val) {
-            this.value = val;
-        }
+    public Node(int _val) {
+        val = _val;
+        children = new ArrayList<Node>();
+    }
 
-        //求值
-        @Override
-        public int evaluate() {
-            switch (value) {
-                case "+":
-                    return left.evaluate() + right.evaluate();
-                case "-":
-                    return left.evaluate() - right.evaluate();
-                case "*":
-                    return left.evaluate() * right.evaluate();
-                case "/":
-                    return left.evaluate() / right.evaluate();
-                default:
-                    return Integer.parseInt(value);
-            }
-        }
+    public Node(int _val, ArrayList<Node> _children) {
+        val = _val;
+        children = _children;
     }
 }
