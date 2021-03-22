@@ -11,16 +11,8 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-        Day11 day11 = new Day11();
-        int [][] arr = new int[][] {
-                {46,89},{50,53},{52,68},{72,45},{77,81}
-        };
-        String[] st1 = new String[] {"cooler","lock","touch"};
-        String[] st2 = new String[] {"i like cooler cooler","lock touch cool","locker like touch"};
-
-        int [] a1 = new int[] {2,3,1,3,2,4,6,7,9,2,19};
-        int [] a2 = new int[] {2,1,4,3,9,6};
-        System.out.println(day11.calculateWeight(13));
+        Day21 day21 = new Day21();
+        System.out.println(day21.smallerNumbersThanCurrent(new int[] {8,1,2,2,3}));
     }
 
     private static void testSortMap() {
