@@ -12,7 +12,7 @@ public class Test {
 
     public static void main(String[] args) {
         Day21 day21 = new Day21();
-        System.out.println(day21.convert("PAYPALISHIRING", 4));
+        System.out.println(day21.smallerNumbersThanCurrent(new int[] {8,1,2,2,3}));
     }
 
     private static void testSortMap() {
