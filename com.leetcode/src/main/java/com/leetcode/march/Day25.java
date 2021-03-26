@@ -1,7 +1,9 @@
 package com.leetcode.march;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.List;
 
 /**
  * @description:
@@ -158,5 +160,99 @@ public class Day25 {
             }
         }
         return ans;
+    }
+
+    /**
+     * 657. 机器人能否返回原点
+     * 在二维平面上，有一个机器人从原点 (0, 0) 开始。给出它的移动顺序，判断这个机器人在完成移动后是否在 (0, 0) 处结束。
+     *
+     * 移动顺序由字符串表示。字符 move[i] 表示其第 i 次移动。机器人的有效动作有 R（右），L（左），U（上）和 D（下）。如果机器人在完成所有动作后返回原点，则返回 true。否则，返回 false。
+     *
+     * 注意：机器人“面朝”的方向无关紧要。 “R” 将始终使机器人向右移动一次，“L” 将始终向左移动等。此外，假设每次移动机器人的移动幅度相同。
+     * 示例 1:
+     *
+     * 输入: "UD"
+     * 输出: true
+     * 解释：机器人向上移动一次，然后向下移动一次。所有动作都具有相同的幅度，因此它最终回到它开始的原点。因此，我们返回 true。
+     * 示例 2:
+     *
+     * 输入: "LL"
+     * 输出: false
+     * 解释：机器人向左移动两次。它最终位于原点的左侧，距原点有两次 “移动” 的距离。我们返回 false，因为它在移动结束时没有返回原点。
+     */
+    public boolean judgeCircle(String moves) {
+        int x = 0, y = 0;
+        char ch;
+        for (int i = 0; i < moves.length(); i++) {
+            ch = moves.charAt(i);
+            if (ch == 'U') {
+                y ++;
+            } else if (ch == 'D') {
+                y --;
+            } else if (ch == 'L') {
+                x --;
+            } else {
+                x ++;
+            }
+        }
+        return x == 0 && y == 0;
+    }
+
+    /**
+     * 1436. 旅行终点站
+     * 给你一份旅游线路图，该线路图中的旅行线路用数组 paths 表示，其中 paths[i] = [cityAi, cityBi] 表示该线路将会从 cityAi 直接前往 cityBi 。请你找出这次旅行的终点站，即没有任何可以通往其他城市的线路的城市。
+     *
+     * 题目数据保证线路图会形成一条不存在循环的线路，因此只会有一个旅行终点站。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：paths = [["London","New York"],["New York","Lima"],["Lima","Sao Paulo"]]
+     * 输出："Sao Paulo"
+     * 解释：从 "London" 出发，最后抵达终点站 "Sao Paulo" 。本次旅行的路线是 "London" -> "New York" -> "Lima" -> "Sao Paulo" 。
+     * 示例 2：
+     *
+     * 输入：paths = [["B","C"],["D","B"],["C","A"]]
+     * 输出："A"
+     * 解释：所有可能的线路是：
+     * "D" -> "B" -> "C" -> "A".
+     * "B" -> "C" -> "A".
+     * "C" -> "A".
+     * "A".
+     * 显然，旅行终点站是 "A" 。
+     * 示例 3：
+     *
+     * 输入：paths = [["A","Z"]]
+     * 输出："Z"
+     *
+     *
+     * 提示：
+     *
+     * 1 <= paths.length <= 100
+     * paths[i].length == 2
+     * 1 <= cityAi.length, cityBi.length <= 10
+     * cityAi != cityBi
+     * 所有字符串均由大小写英文字母和空格字符组成。
+     */
+    public String destCity(List<List<String>> paths) {
+        List<String> starts = new ArrayList<>();
+        List<String> ends = new ArrayList<>();
+        String start, end;
+        for (List<String> path : paths) {
+            start = path.get(0);
+            end = path.get(1);
+            if (ends.contains(start)) {
+                ends.remove(start);
+            } else {
+                starts.add(start);
+            }
+            if (starts.contains(end)) {
+                starts.remove(end);
+            } else {
+                ends.add(end);
+            }
+        }
+        return ends.get(0);
     }
 }
