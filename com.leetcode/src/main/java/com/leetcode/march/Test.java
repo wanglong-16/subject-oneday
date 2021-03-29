@@ -11,8 +11,8 @@ import java.util.*;
 public class Test {
 
     public static void main(String[] args) {
-        Day23 day23 = new Day23();
-        System.out.println(day23.addStrings("1234", "3569"));
+        Day28 day28 = new Day28();
+        System.out.println(day28.freqAlphabets("10#11#12"));
     }
 
     private static void testSortMap() {
