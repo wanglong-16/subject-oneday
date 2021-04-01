@@ -1,8 +1,6 @@
 package com.leetcode.march;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Stack;
+import java.util.*;
 
 /**
  * @description:
@@ -98,4 +96,166 @@ public class Day30 {
         }
         return stu0cnt - sand0cnt + stu1cnt - sand1cnt;
     }
+
+    /**
+     * 942. 增减字符串匹配
+     * 给定只含 "I"（增大）或 "D"（减小）的字符串 S ，令 N = S.length。
+     *
+     * 返回 [0, 1, ..., N] 的任意排列 A 使得对于所有 i = 0, ..., N-1，都有：
+     *
+     * 如果 S[i] == "I"，那么 A[i] < A[i+1]
+     * 如果 S[i] == "D"，那么 A[i] > A[i+1]
+     *
+     *
+     * 示例 1：
+     *
+     * 输入："IDID"
+     * 输出：[0,4,1,3,2]
+     * 示例 2：
+     *
+     * 输入："III"
+     * 输出：[0,1,2,3]
+     * 示例 3：
+     *
+     * 输入："DDI"
+     * 输出：[3,2,0,1]
+     */
+    public int[] diStringMatch(String S) {
+        int[] ans = new int[S.length() + 1];
+        int left = 0, right = S.length();
+        int cnt = 0;
+        for (Character c : S.toCharArray()) {
+            if (c == 'I') {
+                ans[cnt] = left;
+                left ++;
+            } else {
+                ans[cnt] = right;
+                right --;
+            }
+            cnt ++;
+        }
+        ans[cnt] = left;
+        return ans;
+    }
+
+    /**
+     * 1380. 矩阵中的幸运数
+     * 给你一个 m * n 的矩阵，矩阵中的数字 各不相同 。请你按 任意 顺序返回矩阵中的所有幸运数。
+     *
+     * 幸运数是指矩阵中满足同时下列两个条件的元素：
+     *
+     * 在同一行的所有元素中最小
+     * 在同一列的所有元素中最大
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：matrix = [[3,7,8],[9,11,13],[15,16,17]]
+     * 输出：[15]
+     * 解释：15 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
+     * 示例 2：
+     *
+     * 输入：matrix = [[1,10,4,2],[9,3,8,7],[15,16,17,12]]
+     * 输出：[12]
+     * 解释：12 是唯一的幸运数，因为它是其所在行中的最小值，也是所在列中的最大值。
+     * 示例 3：
+     *
+     * 输入：matrix = [[7,8],[1,2]]
+     * 输出：[7]
+     */
+    public List<Integer> luckyNumbers (int[][] matrix) {
+        int[][] rowMin = new int[matrix.length][2];
+        int[][] colMin = new int[matrix[0].length][2];
+        for (int i = 0; i < matrix.length; i++) {
+            int min = 0;
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] < matrix[i][min]) {
+                    min = j;
+                }
+            }
+            rowMin[i][0] = i;
+            rowMin[i][1] = min;
+        }
+
+        for (int i = 0; i < matrix[0].length; i++) {
+            //第i列
+            int max = 0;
+            for (int j = 0; j < matrix.length; j++) {
+                if (matrix[j][i] > matrix[max][i]) {
+                    max = j;
+                }
+            }
+            colMin[i][0] = max;
+            colMin[i][1] = i;
+        }
+        List<Integer> ans = new ArrayList<>();
+        for (int[] rp : rowMin) {
+            for (int[] cp : colMin) {
+                if (rp[0] == cp[0] && rp[1] == cp[1]) {
+                    ans.add(matrix[rp[0]][rp[1]]);
+                }
+            }
+        }
+        return ans;
+    }
+
+    /**
+     * 1002. 查找常用字符
+     * 给定仅有小写字母组成的字符串数组 A，返回列表中的每个字符串中都显示的全部字符（包括重复字符）组成的列表。例如，如果一个字符在每个字符串中出现 3 次，但不是 4 次，则需要在最终答案中包含该字符 3 次。
+     *
+     * 你可以按任意顺序返回答案。
+     *
+     *
+     *
+     * 示例 1：
+     *
+     * 输入：["bella","label","roller"]
+     * 输出：["e","l","l"]
+     * 示例 2：
+     *
+     * 输入：["cool","lock","cook"]
+     * 输出：["c","o"]
+     *
+     *
+     * 提示：
+     *
+     * 1 <= A.length <= 100
+     * 1 <= A[i].length <= 100
+     * A[i][j] 是小写字母
+     */
+    public List<String> commonChars(String[] A) {
+        List<Map<Character, Integer>> aMap = new ArrayList<>(A.length);
+        Map<Character, Integer> map;
+        for (String st : A) {
+            map = new HashMap<>();
+            for (Character cr : st.toCharArray()) {
+                if (map.get(cr) != null) {
+                    map.put(cr, map.get(cr) + 1);
+                } else {
+                    map.put(cr, 1);
+                }
+            }
+            aMap.add(map);
+        }
+        List<String> ans = new ArrayList<>();
+        for (Character e : aMap.get(0).keySet()) {
+            int minCount = Integer.MAX_VALUE;
+            boolean find = true;
+            for (Map<Character, Integer> mp : aMap) {
+                if (mp.get(e) == null) {
+                    find = false;
+                    break;
+                } else {
+                    minCount = Math.min(mp.get(e), minCount);
+                }
+            }
+            if (find) {
+                for (int i = 0; i < minCount; i++) {
+                    ans.add(String.valueOf(e));
+                }
+            }
+        }
+        return ans;
+    }
+
 }
