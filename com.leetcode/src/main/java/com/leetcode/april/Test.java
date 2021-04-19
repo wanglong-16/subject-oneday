@@ -11,11 +11,9 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        Day5 day5 = new Day5();
-        int[][] val = new int[][] {{1,3,1},
-                {1,5,1},
-                {4,2,1}};
-        System.out.println(day5.movingCount(16, 8, 4));
+        Day16 day16 = new Day16();
+        int[][] val = new int[][] {{1,2},{2,4},{3,2},{4,1}};
+        System.out.println(day16.getOrder(val));
 
     }
 }
