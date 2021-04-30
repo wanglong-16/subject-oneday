@@ -1,5 +1,9 @@
 package com.leetcode.april;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @description:
  * @version: 1.0
@@ -160,4 +164,85 @@ public class Day15 {
         return ans;
     }
 
+    public List<String> generatePossibleNextMoves(String currentState) {
+        List<String> ans = new ArrayList<>();
+        for (int i = 0; i < currentState.length() - 1; i++) {
+            if (currentState.charAt(i) == '+' && currentState.charAt(i + 1) == '+') {
+                String str = currentState.substring(0, i) + "--";
+                if (i != currentState.length() - 1) {
+                    str += currentState.substring(i + 2);
+                }
+                ans.add(str);
+            }
+        }
+        return ans;
+    }
+
+    public int thirdMax(int[] nums) {
+        Arrays.sort(nums);
+        int find = 0;
+        for (int i = 0; i < nums.length - 1; i++) {
+            if (nums[i + 1] != nums[i]) {
+                find ++;
+            }
+            if (find == 2) {
+                return nums[i + 1];
+            }
+        }
+        return nums[0];
+    }
+
+    public boolean judgeSquareSum(int c) {
+        long left = 0, right = (long) Math.sqrt(c);
+        while (left < right) {
+            if ((left * left + right * right) == c) {
+                return true;
+            } else if ((left * left + right * right) > c) {
+                right --;
+            } else {
+                left ++;
+            }
+        }
+        return false;
+    }
+
+    public int findKthLargest(int[] nums, int k) {
+        Arrays.sort(nums);
+        return nums[nums.length - k];
+    }
+
+    public int minSubArrayLen(int target, int[] nums) {
+        int start = 0, end = 0, sum = 0, ans = Integer.MAX_VALUE;
+        while (end < nums.length) {
+            sum += nums[end];
+            while (sum >= target) {
+                ans = Math.min(ans, end - start + 1);
+                sum -= nums[start];
+                start ++;
+            }
+            end ++;
+        }
+        return ans == Integer.MAX_VALUE ? 0 : ans;
+    }
+
+    public int maximalSquare(char[][] matrix) {
+        if (matrix == null || matrix.length == 0) {
+            return 0;
+        }
+        int [][] dp = new int[matrix.length][matrix[0].length];
+        int max = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            for (int j = 0; j < matrix[0].length; j++) {
+                if (matrix[i][j] == '1') {
+                    if (i == 0 || j == 0) {
+                        dp[i][j] = 1;
+                    } else {
+                        dp[i][j] = Math.min(Math.min(dp[i - 1][j], dp[i - 1][j - 1]), dp[i][j - 1]) + 1;
+                    }
+                    max = Math.max(max, dp[i][j]);
+                }
+            }
+        }
+        return max * max;
+    }
 }
