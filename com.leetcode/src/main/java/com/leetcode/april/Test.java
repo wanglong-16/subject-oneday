@@ -11,9 +11,10 @@ import java.util.Arrays;
 public class Test {
 
     public static void main(String[] args) {
-        Day16 day16 = new Day16();
-        int[][] val = new int[][] {{1,2},{2,4},{3,2},{4,1}};
-        System.out.println(day16.getOrder(val));
+       Day30 day30 = new Day30();
+        int[][] val = new int[][] {{2,2},{1,2},{3,2}};
+        int[][] quary = new int[][] {{3,1},{3,3},{5,2}};
 
+        System.out.println(day30.closestRoom(val, quary));
     }
 }
