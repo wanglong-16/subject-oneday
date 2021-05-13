@@ -23,4 +23,30 @@ public class Day4 {
         }
         return ans;
     }
+
+    public String countAndSay(int n) {
+        String [] strings = new String[n];
+        strings[0] = "1";
+        for (int i = 1; i < n; i++) {
+            strings[i] = countStr(strings[i - 1]);
+        }
+        return strings[n - 1];
+    }
+
+    public String countStr(String str) {
+        char cur = str.charAt(str.length() - 1);
+        int count = 0;
+        StringBuilder sb = new StringBuilder();
+        for (int i = str.length() - 1; i >= 0; i--) {
+            if (str.charAt(i) == cur) {
+                count ++;
+            } else {
+                sb.append(cur).append(count);
+                cur = str.charAt(i);
+                count = 1;
+            }
+        }
+        sb.append(cur).append(count);
+        return sb.reverse().toString();
+    }
 }
