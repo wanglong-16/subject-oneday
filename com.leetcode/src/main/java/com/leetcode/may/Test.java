@@ -10,7 +10,8 @@ public class Test {
 
 
     public static void main(String[] args) {
-        Day4 day4 = new Day4();
-        System.out.println(day4.countAndSay(5));
+        Day12 day12 = new Day12();
+        int[][] logs = new int[][] {{1950,1961},{1960,1971},{1970,1981}};
+        System.out.println(day12.maximumPopulation(logs));
     }
 }
