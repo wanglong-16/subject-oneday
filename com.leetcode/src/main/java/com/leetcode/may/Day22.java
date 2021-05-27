@@ -77,4 +77,40 @@ public class Day22 {
     }
 
 
+    public int[] nextGreaterElements(int[] nums) {
+        int[] ans = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            ans[i] = findNext(nums, i);
+        }
+        return ans;
+    }
+
+    public int findNext(int[] nums, int pos) {
+        if (pos != nums.length - 1) {
+            for (int i = pos + 1; i < nums.length; i++) {
+                if (nums[i] > nums[pos]) {
+                    return nums[i];
+                }
+            }
+        }
+        if (pos != 0) {
+            for (int i = 0; i < pos; i++) {
+                if (nums[i] > nums[pos]) {
+                    return nums[i];
+                }
+            }
+        }
+        return -1;
+    }
+
+    public int numSquares(int n) {
+        int minTotal = 0;
+        while (n != 0) {
+            int sqrt = (int)Math.sqrt(n);
+            n -= sqrt * sqrt;
+            minTotal ++;
+        }
+        return minTotal;
+    }
+
 }
