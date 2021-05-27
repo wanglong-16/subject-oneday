@@ -260,7 +260,27 @@ public class Day24 {
      * 通过次数42,293提交次数92,154
      */
     public boolean isInterleave(String s1, String s2, String s3) {
-        return true;
+        if ("".equals(s1)) {
+            return s3.equals(s2);
+        }
+        if ("".equals(s2)) {
+            return s1.equals(s3);
+        }
+        StringBuilder sb1 = new StringBuilder();
+        StringBuilder sb2 = new StringBuilder();
+        for (int i = 0, j = 0; i < s1.length() || j < s2.length(); i++, i++) {
+            if (i < s1.length()) {
+                sb1.append(s1.charAt(i));
+            }
+            if (j < s2.length()) {
+                sb1.append(s2.charAt(j));
+                sb2.append(s2.charAt(j));
+            }
+            if (i < s1.length()) {
+                sb2.append(s1.charAt(i));
+            }
+        }
+        return sb1.toString().equals(s3) || sb2.toString().equals(s3);
     }
 
     /**
