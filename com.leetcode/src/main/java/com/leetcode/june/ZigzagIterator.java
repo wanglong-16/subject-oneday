@@ -19,29 +19,29 @@ public class ZigzagIterator {
             v[0][i] = v1.get(i);
         }
     }
-
-    public int next() {
-        int ans = -1;
-        if (!_v1.isEmpty() || !_v2.isEmpty()) {
-            if (isV1 && !_v1.isEmpty()) {
-                ans = _v1.poll();
-                if (!_v2.isEmpty()) {
-                    isV1 = false;
-                }
-            }
-            if (!isV1 && !_v2.isEmpty()) {
-                ans = _v2.poll();
-                if (!_v1.isEmpty()) {
-                    isV1 = true;
-                }
-            }
-        }
-        return ans;
-    }
-
-    public boolean hasNext() {
-        return !_v1.isEmpty() || !_v2.isEmpty();
-    }
+//
+//    public int next() {
+//        int ans = -1;
+//        if (!_v1.isEmpty() || !_v2.isEmpty()) {
+//            if (isV1 && !_v1.isEmpty()) {
+//                ans = _v1.poll();
+//                if (!_v2.isEmpty()) {
+//                    isV1 = false;
+//                }
+//            }
+//            if (!isV1 && !_v2.isEmpty()) {
+//                ans = _v2.poll();
+//                if (!_v1.isEmpty()) {
+//                    isV1 = true;
+//                }
+//            }
+//        }
+//        return ans;
+//    }
+//
+//    public boolean hasNext() {
+//        return !_v1.isEmpty() || !_v2.isEmpty();
+//    }
 }
 
 /**
