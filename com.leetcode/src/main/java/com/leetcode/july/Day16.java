@@ -64,15 +64,7 @@ public class Day16 {
         return ans.toString();
     }
 
-    public static void main(String[] args) {
-        Day16 day16 = new Day16();
-        List<List<Integer>> lists = new ArrayList<>();
-        lists.add(Arrays.asList(0,3));
-        lists.add(Arrays.asList(1,2));
-//"mississippi"
-//["is","ppi","i"]
-        System.out.println(day16.multiSearch("mississippi", new String[] {"is","ppi","i"}));
-    }
+
 
 
     public int[][] multiSearch(String big, String[] smalls) {
@@ -130,5 +122,55 @@ public class Day16 {
         }
     }
 
+    public int searchV1(int[] nums, int target) {
+        int ans = 0;
+        for (int num : nums) {
+            if (num == target) {
+                ans++;
+            }
+        }
+        return ans;
+    }
+
+    public int search(int[] nums, int target) {
+        int ans = 0, mid = binarySearch(nums, target);
+        if (mid == -1) {
+            return 0;
+        }
+        for (int l = mid, r = mid; l >=0 || r < nums.length; l --, r ++) {
+            if (l >=0 && nums[l] == target) {
+                ans++;
+            }
+            if (r < nums.length && nums[r] == target) {
+                ans++;
+            }
+        }
+        return ans - 1;
+    }
+
+    public int binarySearch(int[] nums, int target) {
+        int left = 0, right = nums.length - 1;
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (nums[mid] == target) {
+                return mid;
+            } else if (nums[mid] > target) {
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+        return -1;
+    }
+
+    public static void main(String[] args) {
+        Day16 day16 = new Day16();
+        List<List<Integer>> lists = new ArrayList<>();
+        lists.add(Arrays.asList(0,3));
+        lists.add(Arrays.asList(1,2));
+//"mississippi"
+//["is","ppi","i"]
+        System.out.println(day16.search(new int[] {6}, 6));
+    }
 
 }
