@@ -1,6 +1,7 @@
 package com.leetcode.july;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -61,5 +62,47 @@ public class Day26 {
         return node.matchWords;
     }
 
+    public int numMatchingSubseq(String s, String[] words) {
+        int ans = 0;
+        ArrayList[] buckets = new ArrayList[26];
+        for (int i = 0; i < 26; i++) {
+            buckets[i] = new ArrayList();
+        }
+        for (String word : words) {
+            Character key = word.charAt(0);
+            buckets[key - 'a'].add(word);
+        }
+        for (int i = 0; i < s.length(); i++) {
+            Character chr = s.charAt(i);
+            List strings = new ArrayList(buckets[chr - 'a']);
+            buckets[chr - 'a'].clear();
+            //移动当前桶的所有单词到下一个桶，key是每个单词的下一个字符
+            for (Object str : strings) {
+                String string = str.toString();
+                if (string.length() == 1) {
+                    ans ++;
+                } else {
+                    Character key = string.charAt(1);
+                    String val = string.substring(1);
+                    buckets[key - 'a'].add(val);
+                }
+            }
+        }
+        return ans;
+    }
+
+    public int maxSubArray(int[] nums) {
+        int pre = 0, maxAns = nums[0];
+        for (int x : nums) {
+            pre = Math.max(pre + x, x);
+            maxAns = Math.max(maxAns, pre);
+        }
+        return maxAns;
+    }
+
+    public static void main(String[] args) {
+        Day26 day26 = new Day26();
+        System.out.println(day26.numMatchingSubseq("abcde", new String[] {"a", "bb", "acd", "ace"}));
+    }
 
 }
