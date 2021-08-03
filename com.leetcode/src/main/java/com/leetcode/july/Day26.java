@@ -1,5 +1,7 @@
 package com.leetcode.july;
 
+import com.leetcode.util.tree.TreeNode;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
@@ -100,9 +102,50 @@ public class Day26 {
         return maxAns;
     }
 
+    int sum = 0;
+
+    public int goodNodes(TreeNode root) {
+        count(root, Integer.MIN_VALUE);
+        return sum;
+    }
+
+    public void count(TreeNode root, int max) {
+        if (root != null) {
+            if (root.val >= max) {
+                sum ++;
+            }
+            int ma = Math.max(max, root.val);
+            count(root.left, ma);
+            count(root.right, ma);
+        }
+    }
+
+    public String[] permutation(String s) {
+        backtrack(s, 0, new StringBuilder());
+        String[] ans = new String[stringSet.size()];
+        int i = 0;
+        for (String str : stringSet) {
+            ans[i++] = str;
+        }
+        return ans;
+    }
+
+    Set<String> stringSet = new HashSet<>();
+
+    public void backtrack(String pattern, int start, StringBuilder sb) {
+        if (start == pattern.length()) {
+            stringSet.add(sb.toString());
+            return;
+        }
+        sb.append(pattern.charAt(start));
+        backtrack(pattern, start + 1, sb);
+        sb.deleteCharAt(sb.length() - 1);
+        backtrack(pattern, start + 1, sb);
+    }
+
     public static void main(String[] args) {
         Day26 day26 = new Day26();
-        System.out.println(day26.numMatchingSubseq("abcde", new String[] {"a", "bb", "acd", "ace"}));
+        System.out.println(Arrays.toString(day26.permutation("abc")));
     }
 
 }
