@@ -32,9 +32,6 @@ public class Day2 {
 
 
 
-    int[] parents;
-    int[] rank;
-    int count;
     public int findCircleNum(int[][] isConnected) {
         parents = new int[isConnected.length];
         rank = new int[isConnected.length];
@@ -52,6 +49,11 @@ public class Day2 {
         }
         return count;
     }
+
+    int[] parents;
+    int[] rank;
+    int count;
+
 
     public int find(int x) {
         return x == parents[x] ? x : (parents[x] = find(parents[x]));
