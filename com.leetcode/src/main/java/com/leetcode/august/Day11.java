@@ -114,10 +114,85 @@ public class Day11 {
         }
         return ret;
     }
+    Map<Integer, List<Integer>> map = new HashMap<>();
+
+    int cnt = 0;
+    boolean[] visit;
+    public int countArrangement(int n) {
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (i % j == 0 || j % i == 0) {
+                    List<Integer> arr = map.getOrDefault(i, new ArrayList<>());
+                    arr.add(j);
+                    map.put(i, arr);
+                }
+            }
+        }
+        visit = new boolean[n + 1];
+        backTracking(1, n);
+        return cnt;
+    }
+
+    public void backTracking(int index, int n) {
+        if (index > n) {
+            cnt ++;
+        } else {
+            for (Integer in : map.get(index)) {
+                if (!visit[in]) {
+                    visit[in] = true;
+                    backTracking(index + 1, n);
+                    visit[in] = false;
+                }
+            }
+        }
+    }
+
+
+    Set<List<Integer>> lists = new HashSet<>();
+
+    public List<List<Integer>> combine(int n, int k) {
+        backTrack(new ArrayList<>(), 1, n, k);
+        return new ArrayList<>(lists);
+    }
+
+    public void backTrack(List<Integer> temp, int index, int n, int k) {
+        if (temp.size() == k) {
+            List<Integer> tt = new ArrayList<>(temp);
+            Collections.sort(tt);
+            lists.add(tt);
+        } else {
+            for (int i = index; i <= n; i++) {
+                if (!temp.contains(i)) {
+                    temp.add(i);
+                    backTrack(temp, index + 1, n, k);
+                    temp.remove(temp.size() - 1);
+                }
+            }
+        }
+    }
+
+    public boolean checkRecord(String s) {
+        int absentCnt = 0, lianxuLate = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (i > 0 && s.charAt(i) == 'L' && s.charAt(i - 1) == 'L') {
+                lianxuLate ++;
+            } else {
+                if (s.charAt(i) == 'A') {
+                    absentCnt ++;
+                }
+                lianxuLate = 0;
+            }
+            if (lianxuLate >= 2) {
+                return false;
+            }
+        }
+        return absentCnt < 2;
+    }
+
 
     public static void main(String[] args) {
         Day11 day11 = new Day11();
-        System.out.println(day11.calculateStrIntVal("abcd"));
+        System.out.println(day11.checkRecord("PPALLLP"));
     }
 
 
