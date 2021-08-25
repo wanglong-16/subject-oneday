@@ -1,5 +1,7 @@
 package com.leetcode.august;
 
+import com.leetcode.util.tree.TreeNode;
+
 import java.util.*;
 
 /**
@@ -93,8 +95,107 @@ public class Day17 {
         return max;
     }
 
+    int sum = 0;
+
+    public TreeNode convertBST(TreeNode root) {
+        if (root != null) {
+            convertBST(root.right);
+            sum += root.val;
+            root.val = sum;
+            convertBST(root.left);
+        }
+        return root;
+    }
+
+    List<List<Integer>> ans = new ArrayList<>();
+    int n;
+    int[][] graph;
+
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        this.graph = graph;
+        n = graph.length - 1;
+        List<Integer> start = new ArrayList<>();
+        start.add(0);
+        backTracking(0, start);
+        return ans;
+    }
+
+    public void backTracking(int cur, List<Integer> temp) {
+        if (cur == n) {
+            ans.add(new ArrayList<>(temp));
+        } else {
+            int[] nexts = graph[cur];
+            if (nexts.length != 0) {
+                for (int next : nexts) {
+                    temp.add(next);
+                    backTracking(next, temp);
+                    temp.remove(temp.size() - 1);
+                }
+            }
+        }
+    }
+
+     // This is the interface that allows for creating nested lists.
+      // You should not implement it, or speculate about its implementation
+      public interface NestedInteger {
+
+          // @return true if this NestedInteger holds a single integer, rather than a nested list.
+          public boolean isInteger();
+
+          // @return the single integer that this NestedInteger holds, if it holds a single integer
+          // Return null if this NestedInteger holds a nested list
+          public Integer getInteger();
+
+          // Set this NestedInteger to hold a single integer.
+          public void setInteger(int value);
+
+          // Set this NestedInteger to hold a nested list and adds a nested integer to it.
+          public void add(NestedInteger ni);
+
+          // @return the nested list that this NestedInteger holds, if it holds a nested list
+          // Return empty list if this NestedInteger holds a single integer
+          public List<NestedInteger> getList();
+
+    }
+    class Solution {
+        public int depthSum(List<NestedInteger> nestedList) {
+            Queue<NestedInteger> queue = new ArrayDeque<>(nestedList);
+            List<List<Integer>> nl = new ArrayList<>();
+            int depth = 1, ans = 0;
+            while (!queue.isEmpty()) {
+                int size = queue.size();
+                nl.add(depth - 1, new ArrayList<>());
+                List<NestedInteger> temp = new ArrayList<>();
+                for (int i = 0; i < size; i++) {
+                    NestedInteger ni = queue.poll();
+                    if (ni.isInteger()) {
+                        nl.get(depth - 1).add(ni.getInteger());
+                    } else {
+                        temp.addAll(ni.getList());
+                    }
+                }
+                if (!temp.isEmpty()) {
+                    for (NestedInteger n : temp) {
+                        queue.offer(n);
+                    }
+                }
+                ++depth;
+            }
+            for (int i = 0; i < nl.size(); i++) {
+                int dep = nl.size() - 1 - i;
+                for (Integer in : nl.get(i)) {
+                    ans += in * dep;
+                }
+            }
+            return ans;
+        }
+    }
+
     public static void main(String[] args) {
         Day17 day17 = new Day17();
-        System.out.println(day17.getMaximumGenerated(7));
+        int[][] graph = new int[][] {
+                {1,2},{3},{3},{}
+        };
+        System.out.println(day17.allPathsSourceTarget(graph));
     }
 }
