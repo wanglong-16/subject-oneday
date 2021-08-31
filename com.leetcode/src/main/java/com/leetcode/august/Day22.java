@@ -104,8 +104,6 @@ public class Day22 {
         return ans;
     }
 
-    List<List<Integer>> tem = new ArrayList<>();
-
 
     public List<List<Integer>> levelOrder(Node root) {
         Queue<Node> queue = new ArrayDeque<>();
@@ -131,6 +129,34 @@ public class Day22 {
         }
         return tem;
     }
+
+    List<List<Integer>> tem = new ArrayList<>();
+
+    int ans = 0;
+    public int diameter(Node root) {
+        dfs(root);
+        return ans;
+    }
+
+    public int dfs(Node root) {
+        if (root == null) {
+            return 0;
+        }
+        int first = 0, second = 0;
+        for (Node nd : root.children) {
+            int d = dfs(nd) + 1;
+            if (d > first) {
+                first = d;
+                second = first;
+            } else if (d > second) {
+                second = d;
+            }
+            ans = Math.max(ans, first + second);
+        }
+        return first;
+    }
+
+
 
     public static void main(String[] args) {
         Day22 day22 = new Day22();
