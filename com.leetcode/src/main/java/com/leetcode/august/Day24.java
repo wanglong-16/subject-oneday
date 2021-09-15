@@ -1,5 +1,7 @@
 package com.leetcode.august;
 
+import com.leetcode.util.linked.ListNode;
+
 import java.util.*;
 
 /**
@@ -122,4 +124,70 @@ public class Day24 {
         }
         return queue.poll();
     }
+
+    public List<List<Integer>> largeGroupPositionsV1(String s) {
+        List<List<Integer>> ans = new ArrayList<>();
+        if (s.length() < 3) {
+            return ans;
+        }
+        int pre = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) != s.charAt(pre)) {
+                if (i - 1 - pre >= 2) {
+                    List<Integer> list = new ArrayList<>();
+                    list.add(pre);
+                    list.add(i - 1);
+                    ans.add(list);
+                }
+                pre = i;
+            }
+        }
+        return ans;
+    }
+
+    public List<List<Integer>> largeGroupPositions(String s) {
+        List<List<Integer>> ret = new ArrayList<>();
+        int n = s.length();
+        int num = 1;
+        for (int i = 0; i < n; i++) {
+            if (i == n - 1 || s.charAt(i) != s.charAt(i + 1)) {
+                if (num >= 3) {
+                    ret.add(Arrays.asList(i - num + 1, i));
+                }
+                num = 1;
+            } else {
+                num++;
+            }
+        }
+        return ret;
+    }
+
+    public ListNode ReverseList(ListNode head) {
+        ListNode pre = null;
+        ListNode temp;
+        while (head != null) {
+            temp = head.next;
+            head.next = pre;
+            pre = head;
+            head = temp;
+        }
+        return pre;
+    }
+
+    public int maxsumofSubarray (int[] arr) {
+        // write code here
+        int max = 0, sum = arr[0];
+        for (int i = 1; i < arr.length; i++) {
+            sum += arr[i];
+            if (sum > max) {
+                max = sum;
+            }
+            if (sum < 0) {
+                sum = 0;
+            }
+        }
+        return max;
+    }
+
+
 }
