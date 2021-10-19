@@ -8,7 +8,7 @@ package com.leetcode.util.linked;
  */
 public interface ImmutableListNode {
 
-    public void printValue(); // print the value of this node.
+    void printValue(); // print the value of this node.
 
-    public ImmutableListNode getNext(); // return the next node.
+    ImmutableListNode getNext(); // return the next node.
 };

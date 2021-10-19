@@ -1,8 +1,6 @@
 package com.leetcode.september;
 
-import java.lang.reflect.Field;
 import java.util.*;
-
 /**
  * @description:
  * @version: 1.0
@@ -16,6 +14,7 @@ public class Day2 {
 public class ListNode {
     int val;
     ListNode next = null;
+
 
     ListNode(int val) {
         this.val = val;
@@ -86,7 +85,44 @@ public class ListNode {
         return cnt;
     }
 
+    List<Integer> ans = new ArrayList<>();
+    public List<Integer> inorderTraversal(TreeNode root) {
+        zhongxu(root);
+        return ans;
+    }
 
+    public void zhongxu(TreeNode node) {
+        if (node != null) {
+            ans.add(node.val);
+            zhongxu(node.left);
+            zhongxu(node.right);
+        }
+    }
+
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 1) {
+            return "";
+        }
+        int start = 0, end = 0;
+        for (int i = 0; i < s.length(); i++) {
+            int len1 = expandAroundCenter(s, i, i);
+            int len2 = expandAroundCenter(s, i, i + 1);
+            int len = Math.max(len1, len2);
+            if (len > end - start) {
+                start = i - (len - 1) / 2;
+                end = i + len / 2;
+            }
+        }
+        return s.substring(start, end + 1);
+    }
+
+    public int expandAroundCenter(String s, int left, int right) {
+        while (left >= 0 && right < s.length() && s.charAt(left) == s.charAt(right)) {
+            --left;
+            ++right;
+        }
+        return right - left - 1;
+    }
 
     public int distance(int[] pa, int[] pb) {
         int dix = Math.abs(pa[0] - pb[0]);

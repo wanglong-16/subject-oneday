@@ -25,7 +25,7 @@ public class Day1 {
      * 进阶:
      * 你可以迭代或递归地反转链表。你能否用两种方法解决这道题？
      */
-    public ListNode reverseList(ListNode head) {
+    public ListNode reverseListV1(ListNode head) {
         ListNode prev = null;
         while (head != null) {
             ListNode nextTemp = head.next; // nextT = 2 3 4 5 => 3 4 5
@@ -34,6 +34,26 @@ public class Day1 {
             head = nextTemp; // head = 2 3 4 5 => 3 4 5
         }
         return prev;
+    }
+
+    public ListNode reverseList(ListNode head) {
+        ListNode pre = null;
+        while (head != null) {
+            ListNode temp = head.next;
+            head.next = pre;
+            pre = head;
+            head = temp;
+        }
+        return pre;
+    }
+
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1);
+        head.next = new ListNode(2);
+        head.next.next = new ListNode(3);
+        head.next.next.next = new ListNode(4);
+        Day1 day1 = new Day1();
+        System.out.println(day1.reverseList(head));
     }
 
     /**
@@ -139,13 +159,21 @@ public class Day1 {
      * 给定的 N 叉树的深度小于或等于 1000。
      * 节点的总个数在 [0, 10^4] 之间
      */
-    public NTreeNode cloneTree(NTreeNode root) {
+    public NTreeNode cloneTreeBfs(NTreeNode root) {
         Queue<NTreeNode> queue = new ArrayDeque<>();
         queue.add(root);
         int layerCount = 1;
         NTreeNode result = new NTreeNode(root.val);
         while (!queue.isEmpty()) {
 
+        }
+        return result;
+    }
+
+    public NTreeNode cloneTree(NTreeNode root) {
+        NTreeNode result = new NTreeNode(root.val);
+        for (NTreeNode nd : root.children) {
+            result.children.add(cloneTree(nd));
         }
         return result;
     }

@@ -52,12 +52,11 @@ public class LRUCache {
     }
 
     public int get(int key) {
-        if (container.get(key) == null) {
+        if (!container.containsKey(key)) {
             return -1;
-        } else {
-            counter.put(key, counter.get(key) + 1);
-            return container.get(key);
         }
+        counter.put(key, counter.get(key) + 1);
+        return container.get(key);
     }
 
     public void put(int key, int value) {
@@ -76,10 +75,10 @@ public class LRUCache {
 
     private void removeLRU() {
         int minCount = Integer.MAX_VALUE, minKey = 0;
-        for (Map.Entry e: counter.entrySet()) {
-            if (Integer.parseInt(e.getValue().toString()) < minCount) {
-                minCount = Integer.parseInt(e.getValue().toString());
-                minKey = Integer.parseInt(e.getKey().toString());
+        for (Map.Entry<Integer, Integer> e: counter.entrySet()) {
+            if (e.getValue() < minCount) {
+                minCount = e.getValue();
+                minKey = e.getKey();
             }
         }
         container.remove(minKey);

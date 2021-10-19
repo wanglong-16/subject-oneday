@@ -291,6 +291,31 @@ public class Day2 {
      * 若计数器为 0，则重新从当前元素开始计数，重复步骤 2 直至到达数组末尾。
      */
 
+    public int majorityElementMor(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return -1;
+        }
+        int current = nums[0];
+        int cnt = 1;
+        for (int i = 1; i < nums.length; i++) {
+            if (cnt == 0) {
+                current = nums[i];
+            }
+            if (nums[i] == current) {
+                ++ cnt;
+            } else {
+                -- cnt;
+            }
+        }
+        int count = 0;
+        for (int num : nums) {
+            if (num == current) {
+                count ++;
+            }
+        }
+        return count * 2 > nums.length ? current : -1;
+    }
+
 
     /**
      * 21. 合并两个有序链表
