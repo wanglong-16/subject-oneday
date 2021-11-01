@@ -23,13 +23,10 @@ public class Day4 {
     List<List<Integer>> ans = new ArrayList<>();
     boolean[] vis;
 
-    public List<List<Integer>> permuteUnique(int[] nums) throws IOException {
+    public List<List<Integer>> permuteUnique(int[] nums) {
         Arrays.sort(nums);
         vis = new boolean[nums.length];
         backTracking(nums, 0, new ArrayList<>());
-        Socket socket = new Socket();
-        ServerSocket s = new ServerSocket();
-
         return ans;
     }
 
@@ -47,6 +44,19 @@ public class Day4 {
             backTracking(nums, i + 1, arr);
             arr.remove(arr.size() - 1);
             vis[i] = false;
+        }
+    }
+
+
+    public static void main(String[] args) {
+        Day4 day4 = new Day4();
+        List<List<Integer>> a = day4.permuteUnique(new int[] {1, 5, 5, 5, 5, 5});
+        for (List<Integer> ll : a) {
+            StringBuilder sb = new StringBuilder();
+            for (Integer in : ll) {
+                sb.append(in);
+            }
+            System.out.print(sb.toString() + ",");
         }
     }
 
@@ -162,13 +172,5 @@ public class Day4 {
 
 
 
-    public static void main(String[] args) {
-        Day4 day4 = new Day4();
-        List<List<Integer>> eg = new ArrayList<>();
-        //[0,1],[0,2],[2,5],[3,4],[4,2]
-        TreeNode root = new TreeNode(1);
-        root.left = new TreeNode(2);
-        root.right = new TreeNode(3);
-        System.out.println(day4.sumNumbers(root));
-    }
+
 }

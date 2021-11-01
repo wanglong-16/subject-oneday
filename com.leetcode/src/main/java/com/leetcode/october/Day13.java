@@ -74,4 +74,63 @@ public class Day13 {
         }
     }
 
+    public int[] plusOneV1(int[] digits) {
+        int pos = 0;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (digits[i] != 9) {
+                pos = i;
+                break;
+            }
+        }
+        if (digits.length == 1) {
+            return digits[0] == 9 ? new int[] {1, 0} : new int[] {digits[0] + 1};
+        }
+        if (pos == 0) {
+            int[] ans;
+            if (digits[pos] == 9) {
+                ans = new int[digits.length + 1];
+                ans[0] = 1;
+            } else {
+                ans = new int[digits.length];
+                ans[0] = digits[0] + 1;
+            }
+            return ans;
+        } else {
+            digits[pos] += 1;
+            return digits;
+        }
+    }
+
+    public int[] plusOne(int[] digits) {
+        boolean nextOne = false;
+        for (int i = digits.length - 1; i >= 0; i--) {
+            if (i == 0 && digits[0] == 9 && nextOne || digits.length == 1 && digits[0] == 9) {
+                int [] ret = new int [digits.length + 1];
+                ret[0] = 1;
+                return ret;
+            }
+            int curr = digits[i];
+            if (nextOne || i == digits.length - 1) {
+                curr ++;
+                nextOne = curr > 9;
+                digits [i] = curr % 10;
+            }
+        }
+        return digits;
+    }
+
+    public int lengthOfLongestSubstring(String s) {
+        int max = 0;
+        Set<Character> set = new HashSet<>();
+        for (int i = 0; i < s.length(); i++) {
+            int start = i;
+            while (start < s.length() && set.add(s.charAt(start)) ) {
+                start ++;
+            }
+            max = Math.max(start - i, max);
+            set.clear();
+        }
+        return max;
+    }
+
 }
