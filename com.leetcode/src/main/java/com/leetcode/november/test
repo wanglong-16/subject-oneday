@@ -1,0 +1,6 @@
+["Robot","move","move","getPos","getDir","move","getPos","getDir","getPos","getDir"]
+[[20,13],[12],[21],[],[],[17],[],[],[],[]]
+
+
+[null,null,null,[17,12],"West",null,[0,12],"South",[0,12],"South"]
+[null,null,null,[17,12],"West",null,[0,12],"West",[0,12],"West"]
